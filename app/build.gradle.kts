@@ -66,6 +66,9 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.foundation:foundation:1.6.0-alpha01")
+    implementation ("com.google.accompanist:accompanist-pager:0.23.1")
+    implementation ("com.google.accompanist:accompanist-pager-indicators:0.23.1")
+    implementation ("com.google.android.material:material:1.11.0")
 
     // Test
     testImplementation("junit:junit:4.13.2")

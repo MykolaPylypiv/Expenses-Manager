@@ -1,14 +1,13 @@
-package com.example.expensesmanager.ui.screens.start
+package com.example.expensesmanager.ui.screens.statistics
 
 import androidx.lifecycle.ViewModel
 import com.example.expensesmanager.core.Mapper
 import com.example.expensesmanager.domain.Date
-import com.example.expensesmanager.domain.model.DragAnchors
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class StartViewModel @Inject constructor(
+class StatisticsViewModel @Inject constructor(
     mapper: Mapper<Date, String>, date: Date
 ) : ViewModel() {
 

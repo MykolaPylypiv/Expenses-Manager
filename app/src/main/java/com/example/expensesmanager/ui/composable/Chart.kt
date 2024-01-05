@@ -20,7 +20,7 @@ import kotlin.math.min
 @Composable
 internal fun Chart(
     modifier: Modifier = Modifier,
-    colors: List<List<Color>>,
+    colors: List<Color>,
     inputValues: List<Float>,
     withCenter: Boolean,
 ) {
@@ -57,9 +57,7 @@ internal fun Chart(
                 val style = if (withCenter) Fill else Stroke(width = 20.dp.toPx())
 
                 drawArc(
-                    brush = Brush.verticalGradient(
-                        colors = colors[index]
-                    ),
+                    color = colors[index],
                     startAngle = startAngle,
                     sweepAngle = angle,
                     useCenter = withCenter,

@@ -3,7 +3,6 @@ package com.example.expensesmanager.ui.composable
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -25,7 +24,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 internal fun BarChart(
     modifier: Modifier = Modifier,
-    colors: List<List<Color>>,
+    colors: List<Color>,
     values: List<Float>,
     maxHeight: Dp = 300.dp
 ) {
@@ -60,7 +59,7 @@ internal fun BarChart(
         values.forEach { item ->
             Bar(
                 value = item,
-                brush = Brush.verticalGradient(colors[values.indexOf(item)]),
+                color = colors[values.indexOf(item)],
                 maxHeight = maxHeight
             )
         }
@@ -69,8 +68,8 @@ internal fun BarChart(
 }
 
 @Composable
-private fun RowScope.Bar(
-    value: Float, brush: Brush, maxHeight: Dp
+private fun Bar(
+    value: Float, color: Color, maxHeight: Dp
 ) {
     val itemHeight = remember(value) { value * maxHeight.value / 100 }
 
@@ -79,7 +78,7 @@ private fun RowScope.Bar(
             .padding(horizontal = 5.dp)
             .height(itemHeight.dp)
             .width(28.dp)
-            .background(brush)
+            .background(color)
     )
 
 }

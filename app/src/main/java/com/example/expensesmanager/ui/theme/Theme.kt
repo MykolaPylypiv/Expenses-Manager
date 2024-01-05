@@ -2,6 +2,7 @@ package com.example.expensesmanager.ui.theme
 
 import android.app.Activity
 import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -23,21 +24,12 @@ private val darkColorScheme = darkColorScheme(
 )
 
 private val lightColorScheme = lightColorScheme(
-    primary = Color.White,
-    secondary = Color.Black,
-    tertiary = Color.DarkGray
+    primary = Color.Black,
+    secondary = Color.White,
+    tertiary = Color.Black,
 )
 
-data class Colors(
-    val firstGradientColor: Color,
-    val secondGradientColor: Color
-)
-
-val colors = Colors(
-    firstGradientColor = Color(0xFFD4145A),
-    secondGradientColor = Color(0xFFFBB03B),
-)
-
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ExpensesManagerTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -57,7 +49,7 @@ fun ExpensesManagerTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = colors.secondGradientColor.copy(0.5f).toArgb()
+            window.statusBarColor = Color.Black.copy(0.9f).toArgb()
             WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
         }
     }
