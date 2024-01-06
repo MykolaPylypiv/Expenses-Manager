@@ -17,9 +17,10 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import java.util.Currency
 
 @Composable
-fun OperationItem(icon: ImageVector, name: String, category: String, income: Int) {
+fun OperationItem(icon: ImageVector, name: String, category: String, income: Int, currency: String) {
     val color = if (income >= 0) Color.Green else Color.Red
 
     Row(
@@ -36,14 +37,14 @@ fun OperationItem(icon: ImageVector, name: String, category: String, income: Int
             Text(
                 modifier = Modifier.padding(horizontal = 8.dp),
                 text = name,
-                color = MaterialTheme.colorScheme.secondary,
+                color = MaterialTheme.colorScheme.primary,
                 fontSize = 20.sp,
             )
 
             Text(
                 modifier = Modifier.padding(horizontal = 8.dp),
                 text = category,
-                color = MaterialTheme.colorScheme.secondary,
+                color = MaterialTheme.colorScheme.primary,
                 fontSize = 16.sp,
             )
         }
@@ -54,7 +55,7 @@ fun OperationItem(icon: ImageVector, name: String, category: String, income: Int
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(end = 24.dp),
-            text = "$income UAN",
+            text = "$income $currency",
             color = color.copy(0.7F),
             fontSize = 20.sp,
             textAlign = TextAlign.Right

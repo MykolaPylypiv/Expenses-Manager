@@ -3,6 +3,7 @@ package com.example.expensesmanager.ui.screens.settings.components
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -22,7 +23,7 @@ fun CurrencyDialogItem(text: String, onClick: () -> Unit) {
                 .height(48.dp)
                 .wrapContentSize(Alignment.Center),
             textAlign = TextAlign.Center,
-            color = Color.White
+            color = MaterialTheme.colorScheme.primary
         )
     }
 }

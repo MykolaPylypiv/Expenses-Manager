@@ -40,13 +40,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.example.expensesmanager.app.Language
+import com.example.expensesmanager.domain.model.Settings
 import com.example.expensesmanager.ui.screens.settings.SettingsViewModel
+import java.util.Currency
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Currency(borderColor: Color, viewModel: SettingsViewModel) {
+fun Currency(borderColor: Color, viewModel: SettingsViewModel, settings: Settings, language: Language) {
     val stateDialog = remember { mutableStateOf(false) }
-    val selectCurrency = remember { mutableStateOf("UAH") }
+    var selectCurrency = settings.currency
     val icon = Icons.Filled.KeyboardArrowDown
 
     var search by remember { mutableStateOf("") }
@@ -62,9 +65,9 @@ fun Currency(borderColor: Color, viewModel: SettingsViewModel) {
         horizontalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Currency",
+            text = language.currency,
             fontSize = 20.sp,
-            color = Color.White,
+            color = MaterialTheme.colorScheme.primary,
             modifier = Modifier.padding(start = 15.dp)
         )
 
@@ -72,7 +75,7 @@ fun Currency(borderColor: Color, viewModel: SettingsViewModel) {
 
 
         Text(
-            text = selectCurrency.value, color = Color.White
+            text = selectCurrency, color = MaterialTheme.colorScheme.primary
         )
 
         AnimatedContent(
@@ -81,7 +84,7 @@ fun Currency(borderColor: Color, viewModel: SettingsViewModel) {
             }, targetState = icon, label = ""
         ) { target ->
             Icon(
-                imageVector = target, contentDescription = "Open", tint = Color.White
+                imageVector = target, contentDescription = "Open", tint = MaterialTheme.colorScheme.primary
             )
         }
 
@@ -91,13 +94,19 @@ fun Currency(borderColor: Color, viewModel: SettingsViewModel) {
     if (stateDialog.value) {
         Dialog(onDismissRequest = { stateDialog.value = false }) {
             Column(modifier = Modifier.padding(vertical = 48.dp)) {
-                TextField(value = search,
+                TextField(
+                    value = search,
                     onValueChange = {
                         search = it
                     },
                     modifier = Modifier.fillMaxWidth(),
-                    label = { Text(text = "Search")},
-                    colors = TextFieldDefaults.textFieldColors(containerColor = MaterialTheme.colorScheme.background)
+                    label = { Text(text = language.search) },
+                    colors = TextFieldDefaults.textFieldColors(
+                        containerColor = MaterialTheme.colorScheme.background,
+                        focusedIndicatorColor = Color.LightGray,
+                        cursorColor = Color.LightGray,
+                        focusedLabelColor = Color.LightGray
+                    )
                 )
 
                 LazyColumn(
@@ -109,8 +118,15 @@ fun Currency(borderColor: Color, viewModel: SettingsViewModel) {
                     viewModel.search(search).forEach { text ->
                         item {
                             CurrencyDialogItem(text = text, onClick = {
-                                selectCurrency.value = text.substring(text.length - 8, text.length - 4)
+                                selectCurrency = text.substring(text.length - 8, text.length - 4)
                                 stateDialog.value = false
+
+                                val newSettings = Settings(
+                                    isEnglish = settings.isEnglish,
+                                    currency = selectCurrency,
+                                    isDark = settings.isDark
+                                )
+                                viewModel.saveSettings(settings = newSettings)
                             })
                         }
                     }

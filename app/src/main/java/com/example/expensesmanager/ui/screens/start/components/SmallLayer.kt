@@ -43,13 +43,13 @@ fun SmallLayer(navController: NavController, screenRoute: String, title: String,
         .background(
             Brush.horizontalGradient(
                 listOf(
-                    Color.Black.copy(alpha), MaterialTheme.colorScheme.background.copy(alpha)
+                    MaterialTheme.colorScheme.secondary.copy(alpha), MaterialTheme.colorScheme.background.copy(alpha)
                 )
             )
         ), verticalAlignment = Alignment.CenterVertically) {
         Text(
             text = title,
-            color = MaterialTheme.colorScheme.secondary,
+            color = MaterialTheme.colorScheme.primary,
             fontSize = 24.sp,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(16.dp)

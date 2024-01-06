@@ -18,16 +18,19 @@ import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.expensesmanager.app.Language
+import com.example.expensesmanager.domain.model.Settings
 import com.example.expensesmanager.navigation.NavigationTree
 import com.example.expensesmanager.ui.screens.start.components.GeneralInformation
 import com.example.expensesmanager.ui.screens.start.components.OperationItem
@@ -35,68 +38,14 @@ import com.example.expensesmanager.ui.screens.start.components.SmallLayer
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
-fun StartScreen(navController: NavController, viewModel: StartViewModel) {
+fun StartScreen(navController: NavController, viewModel: StartViewModel, language: Language) {
+    val operations by viewModel.operations.collectAsState(initial = listOf())
+    val settings = viewModel.settings.collectAsState(initial = Settings())
+
     val color = Color(0xffEA8D8D)
     val color2 = Color(0xffA890FE)
 
     val alpha = 0.8F
-
-    val operationList = listOf(
-        Operation(
-            icon = Icons.Filled.ShoppingCart, category = "Shop", income = -1200, name = "Сім23"
-        ),
-        Operation(
-            icon = Icons.Filled.ShoppingCart, category = "Food", income = -1200, name = "Сім23"
-        ),
-        Operation(
-            icon = Icons.Filled.ShoppingCart, category = "Salary", income = 1200, name = "Сім23"
-        ),
-        Operation(
-            icon = Icons.Filled.ShoppingCart, category = "Shop", income = -1200, name = "Сім23"
-        ),
-        Operation(
-            icon = Icons.Filled.ShoppingCart, category = "Food", income = -1200, name = "Сім23"
-        ),
-        Operation(
-            icon = Icons.Filled.ShoppingCart, category = "Shop", income = -1200, name = "Сім23"
-        ),
-        Operation(
-            icon = Icons.Filled.ShoppingCart, category = "Salary", income = 1200, name = "Сім23"
-        ),
-        Operation(
-            icon = Icons.Filled.ShoppingCart, category = "Food", income = -1200, name = "Сім23"
-        ),
-        Operation(
-            icon = Icons.Filled.ShoppingCart, category = "Shop", income = -1200, name = "Сім23"
-        ),
-        Operation(
-            icon = Icons.Filled.ShoppingCart, category = "Food", income = -1200, name = "Сім23"
-        ),
-        Operation(
-            icon = Icons.Filled.ShoppingCart, category = "Salary", income = 1200, name = "Сім23"
-        ),
-        Operation(
-            icon = Icons.Filled.ShoppingCart, category = "Food", income = -1200, name = "Сім23"
-        ),
-        Operation(
-            icon = Icons.Filled.ShoppingCart, category = "Shop", income = -1200, name = "Сім23"
-        ),
-        Operation(
-            icon = Icons.Filled.ShoppingCart, category = "Shop", income = -1200, name = "Сім23"
-        ),
-        Operation(
-            icon = Icons.Filled.ShoppingCart, category = "Food", income = -1200, name = "Сім23"
-        ),
-        Operation(
-            icon = Icons.Filled.ShoppingCart, category = "Salary", income = 1200, name = "Сім23"
-        ),
-        Operation(
-            icon = Icons.Filled.ShoppingCart, category = "Shop", income = -1200, name = "Сім23"
-        ),
-        Operation(
-            icon = Icons.Filled.ShoppingCart, category = "Shop", income = -1200, name = "Сім23"
-        ),
-    )
 
     LazyColumn(
         modifier = Modifier
@@ -111,7 +60,12 @@ fun StartScreen(navController: NavController, viewModel: StartViewModel) {
             .animateContentSize(), horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
-            GeneralInformation(viewModel = viewModel)
+            GeneralInformation(
+                viewModel = viewModel,
+                currency = settings.value.currency,
+                operations = operations,
+                language = language
+            )
 
             Spacer(modifier = Modifier.height(8.dp))
         }
@@ -120,7 +74,7 @@ fun StartScreen(navController: NavController, viewModel: StartViewModel) {
             SmallLayer(
                 navController = navController,
                 screenRoute = NavigationTree.Statistics.screenRoute,
-                title = "Statistics",
+                title = language.statistics,
                 padding = 24.dp
             )
         }
@@ -128,8 +82,8 @@ fun StartScreen(navController: NavController, viewModel: StartViewModel) {
         item {
             SmallLayer(
                 navController = navController,
-                screenRoute = NavigationTree.Incomes.screenRoute,
-                title = "Add incomes",
+                screenRoute = NavigationTree.Add.screenRoute,
+                title = language.add,
                 padding = 16.dp
             )
         }
@@ -138,7 +92,7 @@ fun StartScreen(navController: NavController, viewModel: StartViewModel) {
             SmallLayer(
                 navController = navController,
                 screenRoute = NavigationTree.Settings.screenRoute,
-                title = "Settings",
+                title = language.settings,
                 padding = 16.dp
             )
         }
@@ -153,7 +107,7 @@ fun StartScreen(navController: NavController, viewModel: StartViewModel) {
                     .background(
                         Brush.horizontalGradient(
                             listOf(
-                                Color.Black.copy(alpha),
+                                MaterialTheme.colorScheme.secondary.copy(alpha),
                                 MaterialTheme.colorScheme.background.copy(alpha)
                             )
                         )
@@ -163,25 +117,22 @@ fun StartScreen(navController: NavController, viewModel: StartViewModel) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 24.dp),
-                    text = "Operations",
-                    color = MaterialTheme.colorScheme.secondary,
+                    text = language.operations,
+                    color = MaterialTheme.colorScheme.primary,
                     fontSize = 24.sp,
                     textAlign = TextAlign.Center
                 )
 
-                operationList.map { operation ->
+                operations.reversed().map { operation ->
                     OperationItem(
-                        icon = operation.icon,
+                        icon = Icons.Filled.ShoppingCart,
                         name = operation.name,
                         category = operation.category,
-                        income = operation.income
+                        income = operation.sum,
+                        currency = settings.value.currency
                     )
                 }
             }
         }
     }
 }
-
-data class Operation(
-    val icon: ImageVector, val name: String, val category: String, val income: Int
-)

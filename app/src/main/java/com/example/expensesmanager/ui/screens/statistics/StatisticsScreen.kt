@@ -37,6 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.expensesmanager.app.Language
 import com.example.expensesmanager.domain.model.Category
 import com.example.expensesmanager.navigation.NavigationTree
 import com.example.expensesmanager.ui.screens.statistics.components.CategoryItem
@@ -44,7 +45,7 @@ import com.example.expensesmanager.ui.screens.statistics.components.ChartLayer
 
 @Composable
 fun StatisticsScreen(
-    navController: NavController, viewModel: StatisticsViewModel
+    navController: NavController, viewModel: StatisticsViewModel, language: Language
 ) {
     val alpha = 0.8f
 

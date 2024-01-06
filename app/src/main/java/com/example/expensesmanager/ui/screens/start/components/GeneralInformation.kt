@@ -18,12 +18,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Divider
@@ -45,20 +43,22 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.expensesmanager.R
+import com.example.expensesmanager.app.Language
+import com.example.expensesmanager.domain.model.Operation
 import com.example.expensesmanager.domain.model.TwoDragAnchors
 import com.example.expensesmanager.ui.screens.start.StartViewModel
 
 @SuppressLint("UnusedContentLambdaTargetStateParameter")
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun GeneralInformation(viewModel: StartViewModel) {
+fun GeneralInformation(
+    viewModel: StartViewModel, currency: String, operations: List<Operation>, language: Language
+) {
     val alpha = 0.7f
-    val percent = 72
+    val percent = viewModel.percentBudget(operations = operations)
 
     val configuration = LocalConfiguration.current
     val width =
@@ -124,7 +124,7 @@ fun GeneralInformation(viewModel: StartViewModel) {
             .background(
                 Brush.horizontalGradient(
                     listOf(
-                        Color.Black.copy(alpha), MaterialTheme.colorScheme.background.copy(alpha)
+                        MaterialTheme.colorScheme.secondary.copy(alpha), MaterialTheme.colorScheme.background.copy(alpha)
                     )
                 )
             )
@@ -138,35 +138,13 @@ fun GeneralInformation(viewModel: StartViewModel) {
             verticalAlignment = Alignment.CenterVertically
         ) {
 
-            IconButton(
-                onClick = { /*TODO*/ },
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.icon_minus),
-                    contentDescription = "",
-                    tint = MaterialTheme.colorScheme.secondary,
-                    modifier = Modifier.size(20.dp)
-                )
-            }
-
             Text(
-                text = "$ 11,200",
-                color = MaterialTheme.colorScheme.secondary,
+                text = "${viewModel.budget(operations)} $currency",
+                color = MaterialTheme.colorScheme.primary,
                 fontSize = 32.sp,
 
                 textAlign = TextAlign.Center
             )
-
-            IconButton(
-                onClick = { /*TODO*/ }
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.Add,
-                    contentDescription = "",
-                    tint = MaterialTheme.colorScheme.secondary,
-                    modifier = Modifier.size(24.dp)
-                )
-            }
 
         }
 
@@ -178,7 +156,7 @@ fun GeneralInformation(viewModel: StartViewModel) {
                 .padding(horizontal = 24.dp, vertical = 8.dp)
         ) {
             Text(
-                text = "Monthly budget",
+                text = language.monthlyBudget,
                 color = MaterialTheme.colorScheme.tertiary,
                 fontSize = 16.sp,
                 modifier = Modifier.padding(horizontal = 4.dp)
@@ -220,8 +198,8 @@ fun GeneralInformation(viewModel: StartViewModel) {
         Spacer(modifier = Modifier.height(if (!expanded) 20.dp else 0.dp))
 
         Text(
-            text = "Date: 15 ${viewModel.textDate}, 2023",
-            color = MaterialTheme.colorScheme.secondary,
+            text = "${language.date}: 15 ${viewModel.textDate}, 2023",
+            color = MaterialTheme.colorScheme.primary,
             fontSize = 18.sp,
             modifier = Modifier.padding(start = 24.dp)
         )
@@ -229,8 +207,8 @@ fun GeneralInformation(viewModel: StartViewModel) {
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
-            text = "Beginning: 36,000 $",
-            color = MaterialTheme.colorScheme.secondary,
+            text = "${language.beginning}: ${viewModel.beginning(operations)} $currency",
+            color = MaterialTheme.colorScheme.primary,
             fontSize = 18.sp,
             modifier = Modifier.padding(horizontal = 24.dp)
 
@@ -239,8 +217,8 @@ fun GeneralInformation(viewModel: StartViewModel) {
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
-            text = "Spent: 25,000 $",
-            color = MaterialTheme.colorScheme.secondary,
+            text = "${language.costs}: ${viewModel.costs(operations)} $currency",
+            color = MaterialTheme.colorScheme.primary,
             fontSize = 18.sp,
             modifier = Modifier.padding(horizontal = 24.dp)
 
@@ -249,8 +227,8 @@ fun GeneralInformation(viewModel: StartViewModel) {
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
-            text = "Avg costs per day: 720 $",
-            color = MaterialTheme.colorScheme.secondary,
+            text = "${language.avgCostsPerDay}: ${viewModel.avgCosts(operations)} $currency",
+            color = MaterialTheme.colorScheme.primary,
             fontSize = 18.sp,
             modifier = Modifier.padding(start = 24.dp)
         )
@@ -258,8 +236,8 @@ fun GeneralInformation(viewModel: StartViewModel) {
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
-            text = "Ideal expenses per day: 560 $",
-            color = MaterialTheme.colorScheme.secondary,
+            text = "${language.idealExpensesPerDay}: ${viewModel.idealCosts(operations)} $currency",
+            color = MaterialTheme.colorScheme.primary,
             fontSize = 18.sp,
             modifier = Modifier.padding(start = 24.dp)
         )

@@ -7,6 +7,6 @@ import javax.inject.Inject
 class MapToUi @Inject constructor() : Mapper<Date, String> {
 
     override fun map(data: Date): String {
-        return data.listOfMonth[data.monthNumber - 1]
+        return data.listOfMonth[data.monthNumber - 1].name
     }
 }

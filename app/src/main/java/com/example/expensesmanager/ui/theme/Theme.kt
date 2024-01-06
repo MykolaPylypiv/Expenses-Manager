@@ -17,18 +17,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
-private val darkColorScheme = darkColorScheme(
-    primary = Color.Black,
-    secondary = Color.White,
-    tertiary = Color.LightGray
-)
-
-private val lightColorScheme = lightColorScheme(
-    primary = Color.Black,
-    secondary = Color.White,
-    tertiary = Color.Black,
-)
-
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun ExpensesManagerTheme(
