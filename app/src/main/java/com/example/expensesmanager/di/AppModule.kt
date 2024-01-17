@@ -3,7 +3,9 @@ package com.example.expensesmanager.di
 import android.content.Context
 import androidx.room.Room
 import com.example.expensesmanager.data.database.AppDatabase
+import com.example.expensesmanager.data.database.room.CategoryDao
 import com.example.expensesmanager.data.database.room.OperationDao
+import com.example.expensesmanager.data.repository.CategoryRepository
 import com.example.expensesmanager.data.repository.OperationRepository
 import dagger.Module
 import dagger.Provides
@@ -20,7 +22,8 @@ object AppModule {
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): AppDatabase =
-        Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME).fallbackToDestructiveMigration().build()
+        Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
+            .fallbackToDestructiveMigration().build()
 
     @Provides
     @Singleton
@@ -30,7 +33,19 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideCategoryDao(db: AppDatabase): CategoryDao {
+        return db.categoryDao()
+    }
+
+    @Provides
+    @Singleton
     fun provideOperationRepository(dao: OperationDao): OperationRepository {
         return OperationRepository.Base(dao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCategoryRepository(dao: CategoryDao): CategoryRepository {
+        return CategoryRepository.Base(dao)
     }
 }

@@ -26,7 +26,7 @@ class StartViewModel @Inject constructor(
 
     val settings = settings.get()
 
-    fun openCloseShape(expanded: Boolean) = if (!expanded) 25 else 15
+    fun openCloseShape(expanded: Boolean) = if (!expanded) 20 else 10
 
     fun openCloseHeight(expanded: Boolean) = if (expanded) 460.dp else 200.dp
 

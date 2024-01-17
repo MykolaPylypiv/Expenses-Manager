@@ -53,7 +53,7 @@ class StatisticsViewModel @Inject constructor(
     }
 
     fun financesList(
-        isCosts: Boolean, language: Language, alpha: Float, operations: List<Operation>
-    ) = if (isCosts) Finances.Costs(operations).categoryList(language, alpha)
-    else Finances.Incomes(operations).categoryList(language, alpha)
+        isCosts: Boolean, language: Language, alpha: Float
+    ) = if (isCosts) Finances.Costs.categoryList(language, alpha)
+    else Finances.Incomes.categoryList(language, alpha)
 }

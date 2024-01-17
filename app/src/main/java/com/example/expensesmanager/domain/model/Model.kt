@@ -19,6 +19,17 @@ data class Operation(
     @ColumnInfo(name = "category") var category: String = ""
 )
 
+@Entity(tableName = "categories")
+data class Category(
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "uid") val uid: Int = 0,
+
+    @ColumnInfo(name = "name") var name: String = "",
+
+    @ColumnInfo(name = "iconId") var iconId: Int = 0,
+
+    @ColumnInfo(name = "isCosts") var isCosts: Boolean = true
+)
+
 data class Month(
     val name: String, val days: Int
 )
@@ -27,7 +38,7 @@ data class Settings(
     var isEnglish: Boolean = true, var isDark: Boolean = true, var currency: String = "UAH",
 )
 
-data class Category(
+data class CategoryOperation(
     val name: String, val expense: Int, val percent: Int, val color: Color
 )
 

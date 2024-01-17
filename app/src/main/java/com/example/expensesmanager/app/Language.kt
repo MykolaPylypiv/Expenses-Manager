@@ -31,6 +31,12 @@ sealed class Language(
     val statistics: String,
     val operations: String,
     val categories: String,
+    val selectIcon: String,
+    val createCategory: String,
+    val setIcon: String,
+    val create: String,
+    val changeCategories: String,
+    val deleteAll: String
 ) {
 
     object English : Language(
@@ -63,7 +69,13 @@ sealed class Language(
         idealExpensesPerDay = "Ideal expenses per day",
         statistics = "Statistics",
         operations = "Operations",
-        categories = "Categories"
+        categories = "Categories",
+        selectIcon = "Select icon",
+        createCategory = "Create category",
+        setIcon = "Set icon",
+        create = "Create",
+        changeCategories = "Change categories",
+        deleteAll = "Delete all",
     )
 
     object Ukraine : Language(
@@ -96,6 +108,12 @@ sealed class Language(
         idealExpensesPerDay = "Ідеальні витрати в день",
         statistics = "Статистика",
         operations = "Транзакції",
-        categories = "Категорії"
+        categories = "Категорії",
+        selectIcon = "Виберіть зображення",
+        createCategory = "Створити категорію",
+        setIcon = "Встановити зображення",
+        create = "Створити",
+        changeCategories = "Змінити категорії",
+        deleteAll = "Видалити всі"
     )
 }

@@ -1,10 +1,14 @@
 package com.example.expensesmanager.ui.screens.settings
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -16,6 +20,7 @@ import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
@@ -33,10 +38,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavController
 import com.example.expensesmanager.app.Language
 import com.example.expensesmanager.domain.model.Settings
 import com.example.expensesmanager.navigation.NavigationTree
+import com.example.expensesmanager.ui.screens.settings.components.CategoryItem
 import com.example.expensesmanager.ui.screens.settings.components.Currency
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -47,6 +54,10 @@ fun SettingsScreen(
     val settings = viewModel.settings.collectAsState(Settings())
 
     val dialog = remember { mutableStateOf(false) }
+    var categoryDialog by remember { mutableStateOf(false) }
+
+    val incomesCategories by viewModel.incomesCategories.collectAsState(initial = listOf())
+    val costsCategories by viewModel.costsCategories.collectAsState(initial = listOf())
 
     Scaffold(topBar = {
         TopAppBar(title = {
@@ -176,7 +187,7 @@ fun SettingsScreen(
             Spacer(modifier = Modifier.height(50.dp))
 
             TextButton(modifier = Modifier.padding(start = 10.dp, end = 25.dp),
-                onClick = { viewModel.deleteAll() }) {
+                onClick = { viewModel.deleteALlOperations() }) {
                 Text(
                     text = language.clearOperations,
                     fontSize = 20.sp,
@@ -184,6 +195,119 @@ fun SettingsScreen(
                 )
             }
 
+            Spacer(modifier = Modifier.height(50.dp))
+
+            TextButton(modifier = Modifier.padding(start = 10.dp, end = 25.dp),
+                onClick = { categoryDialog = true }) {
+                Text(
+                    text = language.changeCategories,
+                    fontSize = 20.sp,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
+
+        }
+    }
+
+    if (categoryDialog) {
+        Dialog(onDismissRequest = { categoryDialog = false }) {
+
+            Column(modifier = Modifier.background(MaterialTheme.colorScheme.background)) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    IconButton(onClick = { navController.navigate(NavigationTree.Start.screenRoute) }) {
+                        Icon(
+                            imageVector = Icons.Filled.KeyboardArrowLeft,
+                            contentDescription = "Back",
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    }
+
+                    Text(
+                        text = language.changeCategories,
+                        color = MaterialTheme.colorScheme.primary,
+                        fontSize = 22.sp
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Spacer(
+                        modifier = Modifier
+                            .padding(horizontal = 5.dp)
+                            .height(1.dp)
+                            .weight(1f)
+                            .background(MaterialTheme.colorScheme.tertiary)
+                    )
+
+                    Text(
+                        text = language.costs,
+                        fontSize = 22.sp,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+
+                    Spacer(
+                        modifier = Modifier
+                            .padding(horizontal = 5.dp)
+                            .height(1.dp)
+                            .weight(1f)
+                            .background(MaterialTheme.colorScheme.tertiary)
+                    )
+                }
+
+                LazyColumn(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    items(costsCategories) { category ->
+                        CategoryItem(category = category, viewModel = viewModel)
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Spacer(
+                        modifier = Modifier
+                            .padding(horizontal = 5.dp)
+                            .height(1.dp)
+                            .weight(1f)
+                            .background(MaterialTheme.colorScheme.tertiary)
+                    )
+
+                    Text(
+                        text = language.income,
+                        fontSize = 22.sp,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+
+                    Spacer(
+                        modifier = Modifier
+                            .padding(horizontal = 5.dp)
+                            .height(1.dp)
+                            .weight(1f)
+                            .background(MaterialTheme.colorScheme.tertiary)
+                    )
+                }
+
+                LazyColumn(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    items(incomesCategories) { category ->
+                        CategoryItem(category = category, viewModel = viewModel)
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                OutlinedButton(
+                    onClick = {
+                        viewModel.deleteALlCategories()
+                        categoryDialog = false
+                    }, modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(text = language.deleteAll, color = MaterialTheme.colorScheme.primary)
+                }
+            }
         }
     }
 }

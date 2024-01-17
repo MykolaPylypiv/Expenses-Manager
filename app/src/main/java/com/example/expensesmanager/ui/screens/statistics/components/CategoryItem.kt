@@ -14,14 +14,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.expensesmanager.domain.model.Category
+import com.example.expensesmanager.domain.model.CategoryOperation
 import com.example.expensesmanager.domain.model.Settings
 
 @Composable
-fun CategoryItem(category: Category, settings: Settings) {
+fun CategoryItem(categoryOperation: CategoryOperation, settings: Settings) {
 
     Column(
         horizontalAlignment = Alignment.Start, modifier = Modifier
@@ -31,21 +30,21 @@ fun CategoryItem(category: Category, settings: Settings) {
 
         Row {
             Text(
-                text = category.name,
+                text = categoryOperation.name,
                 color = MaterialTheme.colorScheme.primary,
                 fontSize = 18.sp,
                 modifier = Modifier.padding(4.dp)
             )
 
             Text(
-                text = "${category.expense} ${settings.currency}",
+                text = "${categoryOperation.expense} ${settings.currency}",
                 color = MaterialTheme.colorScheme.primary,
                 fontSize = 18.sp,
                 modifier = Modifier.padding(4.dp)
             )
 
             Text(
-                text = "(${category.percent}%)",
+                text = "(${categoryOperation.percent}%)",
                 color = MaterialTheme.colorScheme.primary,
                 fontSize = 18.sp,
                 modifier = Modifier.padding(4.dp)
@@ -53,7 +52,7 @@ fun CategoryItem(category: Category, settings: Settings) {
         }
 
         Divider(
-            color = category.color,
+            color = categoryOperation.color,
             thickness = 4.dp,
             modifier = Modifier
                 .padding(end = 24.dp)

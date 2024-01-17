@@ -1,14 +1,11 @@
 package com.example.expensesmanager.ui.screens.incomes
 
 import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -18,9 +15,9 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
+import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -35,7 +32,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -50,6 +46,7 @@ import com.example.expensesmanager.domain.model.Operation
 import com.example.expensesmanager.domain.model.Settings
 import com.example.expensesmanager.navigation.NavigationTree
 import com.example.expensesmanager.ui.screens.AccentFinanceDivider
+import com.example.expensesmanager.ui.screens.incomes.components.AddCategory
 import com.example.expensesmanager.ui.screens.incomes.components.CategoryIconItem
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -61,7 +58,10 @@ fun AddScreen(
 
     val context = LocalContext.current
 
-    val settings = viewModel.settings.collectAsState(initial = Settings())
+    val settings by viewModel.settings.collectAsState(initial = Settings())
+
+    val incomesCategories by viewModel.incomesCategories.collectAsState(initial = listOf())
+    val costsCategories by viewModel.costsCategories.collectAsState(initial = listOf())
 
     var isCosts by remember { mutableStateOf(true) }
 
@@ -77,15 +77,20 @@ fun AddScreen(
                 Icon(imageVector = Icons.Filled.KeyboardArrowLeft, contentDescription = "Back")
             }
         }, actions = {
-            IconButton(onClick = {
-                val operation = Operation(
-                    sum = sum.toInt(), name = name, comment = comment, category = viewModel.category
-                )
+            IconButton(
+                onClick = {
+                    val operation = Operation(
+                        sum = sum.toInt(),
+                        name = name,
+                        comment = comment,
+                        category = viewModel.category
+                    )
 
-                viewModel.insert(
-                    operation = operation, isCosts = isCosts, context = context
-                )
-            }, modifier = Modifier.padding(end = 8.dp)) {
+                    viewModel.insert(
+                        operation = operation, isCosts = isCosts, context = context
+                    )
+                }, modifier = Modifier.padding(end = 8.dp)
+            ) {
                 Icon(imageVector = Icons.Filled.Add, contentDescription = "Add")
             }
         })
@@ -99,7 +104,7 @@ fun AddScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(24.dp),
-                label = { Text(text = settings.value.currency) },
+                label = { Text(text = settings.currency) },
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = MaterialTheme.colorScheme.background,
                     focusedIndicatorColor = Color.LightGray,
@@ -195,15 +200,22 @@ fun AddScreen(
             ) {
                 items(
                     viewModel.financesList(
-                        isCosts = isCosts, language = language
+                        isCosts = isCosts, costs = costsCategories, incomes = incomesCategories
                     )
                 ) { categoryIcon ->
                     CategoryIconItem(
-                        viewModel = viewModel, text = categoryIcon.text, icon = categoryIcon.icon
+                        viewModel = viewModel,
+                        text = categoryIcon.name,
+                        icon = categoryIcon.iconId
                     )
+                }
+
+                item {
+                    AddCategory(language = language, viewModel = viewModel, context = context)
                 }
             }
         }
+
     }
 }
 

@@ -43,7 +43,6 @@ import androidx.compose.ui.window.Dialog
 import com.example.expensesmanager.app.Language
 import com.example.expensesmanager.domain.model.Settings
 import com.example.expensesmanager.ui.screens.settings.SettingsViewModel
-import java.util.Currency
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
