@@ -9,18 +9,15 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
@@ -49,9 +46,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.expensesmanager.app.Language
-import com.example.expensesmanager.domain.model.CategoryIcon
+import com.example.expensesmanager.domain.model.Operation
 import com.example.expensesmanager.domain.model.Settings
 import com.example.expensesmanager.navigation.NavigationTree
+import com.example.expensesmanager.ui.screens.AccentFinanceDivider
 import com.example.expensesmanager.ui.screens.incomes.components.CategoryIconItem
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -59,31 +57,17 @@ import com.example.expensesmanager.ui.screens.incomes.components.CategoryIconIte
 fun AddScreen(
     navController: NavController, viewModel: AddViewModel, language: Language
 ) {
-    var isCosts by remember { mutableStateOf(true) }
     val alpha = 0.8f
-
-    var sum by remember { mutableStateOf("") }
-    var name by remember { mutableStateOf("") }
-    var comment by remember { mutableStateOf("") }
 
     val context = LocalContext.current
 
     val settings = viewModel.settings.collectAsState(initial = Settings())
 
-    val costsList = listOf(
-        CategoryIcon(language.food, Icons.Filled.ShoppingCart),
-        CategoryIcon(language.cafe, Icons.Filled.ShoppingCart),
-        CategoryIcon(language.transport, Icons.Filled.ShoppingCart),
-        CategoryIcon(language.health, Icons.Filled.ShoppingCart),
-        CategoryIcon(language.pets, Icons.Filled.ShoppingCart),
-        CategoryIcon(language.family, Icons.Filled.ShoppingCart),
-        CategoryIcon(language.clothes, Icons.Filled.ShoppingCart),
-        CategoryIcon(language.entertainment, Icons.Filled.ShoppingCart),
-    )
+    var isCosts by remember { mutableStateOf(true) }
 
-    val incomesList = listOf(
-        CategoryIcon(language.salary, Icons.Filled.ShoppingCart),
-    )
+    var sum by remember { mutableStateOf("0") }
+    var name by remember { mutableStateOf("") }
+    var comment by remember { mutableStateOf("") }
 
     Scaffold(topBar = {
         TopAppBar(title = {
@@ -94,10 +78,13 @@ fun AddScreen(
             }
         }, actions = {
             IconButton(onClick = {
-                viewModel.newOperation.sum = if (sum.isNotEmpty()) sum.toInt() else 0
-                viewModel.newOperation.name = name
-                viewModel.newOperation.comment = comment
-                viewModel.insert(context = context, isCosts = isCosts)
+                val operation = Operation(
+                    sum = sum.toInt(), name = name, comment = comment, category = viewModel.category
+                )
+
+                viewModel.insert(
+                    operation = operation, isCosts = isCosts, context = context
+                )
             }, modifier = Modifier.padding(end = 8.dp)) {
                 Icon(imageVector = Icons.Filled.Add, contentDescription = "Add")
             }
@@ -106,8 +93,8 @@ fun AddScreen(
 
         Column(modifier = Modifier.padding(padding)) {
             TextField(value = sum,
-                onValueChange = {
-                    sum = it
+                onValueChange = { value ->
+                    sum = viewModel.sumValue(value)
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -118,7 +105,8 @@ fun AddScreen(
                     focusedIndicatorColor = Color.LightGray,
                     cursorColor = Color.LightGray
                 ),
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword)
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
+                singleLine = true
             )
 
             TextField(value = name,
@@ -133,7 +121,8 @@ fun AddScreen(
                     containerColor = MaterialTheme.colorScheme.background,
                     focusedIndicatorColor = Color.LightGray,
                     cursorColor = Color.LightGray
-                )
+                ),
+                singleLine = true
             )
 
             TextField(value = comment,
@@ -161,16 +150,11 @@ fun AddScreen(
                 )
             ) {
                 Row {
-
-                    val alpha = 0.8f
-
                     Column(modifier = Modifier
                         .weight(1F)
                         .padding(10.dp)
                         .clip(RoundedCornerShape(15))
-                        .clickable {
-                            isCosts = true
-                        }
+                        .clickable { isCosts = true }
                         .animateContentSize()) {
                         Text(
                             text = language.costs,
@@ -182,28 +166,15 @@ fun AddScreen(
                             textAlign = TextAlign.Center
                         )
 
-                        Divider(
-                            color = Color.Red.copy(alpha),
-                            thickness = 4.dp,
-                            modifier = if (isCosts) Modifier
-                                .animateContentSize()
-                                .clip(CircleShape)
-                                .fillMaxWidth()
-                                .padding(5.dp)
-                            else Modifier
-                                .animateContentSize()
-                                .clip(CircleShape)
-                                .width(0.dp)
-                        )
+                        AccentFinanceDivider(isCosts = isCosts, alpha = alpha, color = Color.Red)
                     }
 
                     Column(modifier = Modifier
                         .weight(1F)
                         .padding(10.dp)
                         .clip(RoundedCornerShape(15))
-                        .clickable {
-                            isCosts = false
-                        }) {
+                        .clickable { isCosts = false }
+                        .animateContentSize()) {
                         Text(
                             text = language.income,
                             color = MaterialTheme.colorScheme.primary,
@@ -214,20 +185,7 @@ fun AddScreen(
                             textAlign = TextAlign.Center
                         )
 
-                        Divider(
-                            color = Color.Green.copy(alpha),
-                            thickness = 4.dp,
-                            modifier = if (!isCosts) Modifier
-                                .animateContentSize()
-                                .clip(CircleShape)
-                                .fillMaxWidth()
-                                .padding(5.dp)
-                            else Modifier
-                                .animateContentSize()
-                                .clip(CircleShape)
-                                .width(0.dp)
-
-                        )
+                        AccentFinanceDivider(isCosts = !isCosts, alpha = alpha, color = Color.Green)
                     }
                 }
             }
@@ -235,29 +193,14 @@ fun AddScreen(
             LazyVerticalGrid(
                 columns = GridCells.Adaptive(minSize = 128.dp), modifier = Modifier.padding(8.dp)
             ) {
-                items(if (isCosts) costsList else incomesList) { categoryIcon ->
+                items(
+                    viewModel.financesList(
+                        isCosts = isCosts, language = language
+                    )
+                ) { categoryIcon ->
                     CategoryIconItem(
                         viewModel = viewModel, text = categoryIcon.text, icon = categoryIcon.icon
                     )
-                }
-
-                item {
-                    Column(
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .clip(RoundedCornerShape(10))
-                            .border(2.dp, Color.DarkGray, RoundedCornerShape(10))
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.Add,
-                            contentDescription = null,
-                            modifier = Modifier
-                                .padding(6.dp)
-                                .size(64.dp)
-                        )
-                    }
                 }
             }
         }

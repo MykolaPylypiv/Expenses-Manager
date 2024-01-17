@@ -29,7 +29,7 @@ fun CategoryIconItem(viewModel: AddViewModel, text: String, icon: ImageVector) {
             .padding(16.dp)
             .clip(RoundedCornerShape(10))
             .border(2.dp, Color.DarkGray, RoundedCornerShape(10))
-            .clickable { viewModel.newOperation.category = text }
+            .clickable { viewModel.category = text }
     ) {
         Icon(imageVector = icon, contentDescription = text, modifier = Modifier.padding(8.dp))
 

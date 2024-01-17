@@ -32,6 +32,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -40,7 +41,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
@@ -60,23 +60,11 @@ fun GeneralInformation(
     val alpha = 0.7f
     val percent = viewModel.percentBudget(operations = operations)
 
+    val dividerColor = viewModel.budgetColor(viewModel.percentBudget(operations = operations))
+
     val configuration = LocalConfiguration.current
     val width =
         (configuration.screenWidthDp - 48 - 48 - (configuration.screenWidthDp / 100 * (100 - percent)))
-
-    val budgetColor = if (percent > 75) {
-        Color(0xff51c374)
-    } else if (percent > 55) {
-        Color(0xffc0eb34)
-    } else if (percent > 40) {
-        Color.Yellow
-    } else if (percent > 30) {
-        Color(0xffeb9c34)
-    } else if (percent > 25) {
-        Color(0xffeb7134)
-    } else {
-        Color.Red
-    }
 
     var expanded by remember { mutableStateOf(false) }
 
@@ -117,14 +105,15 @@ fun GeneralInformation(
     Column(
         modifier = Modifier
             .padding(24.dp)
-            .clip(RoundedCornerShape(if (!expanded) 25 else 15))
+            .clip(RoundedCornerShape(viewModel.openCloseShape(expanded)))
             .animateContentSize(animationSpec = spring(stiffness = Spring.StiffnessMediumLow))
-            .height(if (expanded) 460.dp else 200.dp)
+            .height(viewModel.openCloseHeight(expanded))
             .fillMaxWidth()
             .background(
                 Brush.horizontalGradient(
                     listOf(
-                        MaterialTheme.colorScheme.secondary.copy(alpha), MaterialTheme.colorScheme.background.copy(alpha)
+                        MaterialTheme.colorScheme.secondary.copy(alpha),
+                        MaterialTheme.colorScheme.background.copy(alpha)
                     )
                 )
             )
@@ -142,7 +131,6 @@ fun GeneralInformation(
                 text = "${viewModel.budget(operations)} $currency",
                 color = MaterialTheme.colorScheme.primary,
                 fontSize = 32.sp,
-
                 textAlign = TextAlign.Center
             )
 
@@ -165,7 +153,7 @@ fun GeneralInformation(
             Spacer(modifier = Modifier.weight(1f))
 
             Text(
-                text = "$percent%",
+                text = "${viewModel.percentBudget(operations = operations)}%",
                 color = MaterialTheme.colorScheme.tertiary,
                 fontSize = 16.sp,
                 modifier = Modifier.padding(horizontal = 4.dp)
@@ -173,7 +161,7 @@ fun GeneralInformation(
         }
 
         Divider(
-            color = budgetColor,
+            color = dividerColor,
             thickness = 4.dp,
             modifier = Modifier
                 .padding(horizontal = 24.dp)
@@ -181,7 +169,7 @@ fun GeneralInformation(
                 .width(width.dp)
         )
 
-        Spacer(modifier = Modifier.height(if (!expanded) 8.dp else 0.dp))
+        Spacer(modifier = Modifier.height(viewModel.openCloseSpacer(expanded, 8.dp)))
 
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
 
@@ -190,12 +178,12 @@ fun GeneralInformation(
                     imageVector = Icons.Filled.KeyboardArrowDown,
                     contentDescription = "Detail information",
                     tint = MaterialTheme.colorScheme.tertiary,
-                    modifier = Modifier.alpha(if (expanded) 0f else 1f)
+                    modifier = Modifier.alpha(viewModel.openCloseAlpha(expanded))
                 )
             }
         }
 
-        Spacer(modifier = Modifier.height(if (!expanded) 20.dp else 0.dp))
+        Spacer(modifier = Modifier.height(viewModel.openCloseSpacer(expanded, 20.dp)))
 
         Text(
             text = "${language.date}: 15 ${viewModel.textDate}, 2023",
@@ -207,7 +195,7 @@ fun GeneralInformation(
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
-            text = "${language.beginning}: ${viewModel.beginning(operations)} $currency",
+            text = "${language.beginning}: ${viewModel.incomes(operations)} $currency",
             color = MaterialTheme.colorScheme.primary,
             fontSize = 18.sp,
             modifier = Modifier.padding(horizontal = 24.dp)

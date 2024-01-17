@@ -1,18 +1,21 @@
 package com.example.expensesmanager.ui.screens.start
 
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import com.example.expensesmanager.core.Mapper
 import com.example.expensesmanager.data.repository.OperationRepository
 import com.example.expensesmanager.data.store.StoreSettings
-import com.example.expensesmanager.domain.Date
+import com.example.expensesmanager.domain.DateTime
 import com.example.expensesmanager.domain.model.Operation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class StartViewModel @Inject constructor(
-    mapper: Mapper<Date, String>,
-    private val date: Date,
+    mapper: Mapper<DateTime, String>,
+    private val date: DateTime,
     operationRepository: OperationRepository,
     settings: StoreSettings
 ) : ViewModel() {
@@ -22,6 +25,32 @@ class StartViewModel @Inject constructor(
     val operations = operationRepository.operation()
 
     val settings = settings.get()
+
+    fun openCloseShape(expanded: Boolean) = if (!expanded) 25 else 15
+
+    fun openCloseHeight(expanded: Boolean) = if (expanded) 460.dp else 200.dp
+
+    fun openCloseAlpha(expanded: Boolean) = if (expanded) 0f else 1f
+
+    fun openCloseSpacer(expanded: Boolean, start: Dp) = if (!expanded) start else 0.dp
+
+    fun operationItemColor(income: Int) = if (income >= 0) Color.Green else Color.Red
+
+    fun budgetColor(percent: Int): Color {
+        return if (percent > 75) {
+            Color(0xff51c374)
+        } else if (percent > 55) {
+            Color(0xffc0eb34)
+        } else if (percent > 40) {
+            Color.Yellow
+        } else if (percent > 30) {
+            Color(0xffeb9c34)
+        } else if (percent > 25) {
+            Color(0xffeb7134)
+        } else {
+            Color.Red
+        }
+    }
 
     fun budget(operations: List<Operation>): Int {
         var sum = 0
@@ -46,7 +75,7 @@ class StartViewModel @Inject constructor(
         return (sum / budget * 100).toInt()
     }
 
-    fun beginning(operations: List<Operation>): Int {
+    fun incomes(operations: List<Operation>): Int {
         var budget = 0
 
         operations.map { operation ->

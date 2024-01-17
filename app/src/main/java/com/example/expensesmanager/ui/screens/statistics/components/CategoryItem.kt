@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,9 +18,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.expensesmanager.domain.model.Category
+import com.example.expensesmanager.domain.model.Settings
 
 @Composable
-fun CategoryItem(category: Category) {
+fun CategoryItem(category: Category, settings: Settings) {
 
     Column(
         horizontalAlignment = Alignment.Start, modifier = Modifier
@@ -30,21 +32,21 @@ fun CategoryItem(category: Category) {
         Row {
             Text(
                 text = category.name,
-                color = Color.White,
+                color = MaterialTheme.colorScheme.primary,
                 fontSize = 18.sp,
                 modifier = Modifier.padding(4.dp)
             )
 
             Text(
-                text = "$ ${category.expense}",
-                color = Color.White,
+                text = "${category.expense} ${settings.currency}",
+                color = MaterialTheme.colorScheme.primary,
                 fontSize = 18.sp,
                 modifier = Modifier.padding(4.dp)
             )
 
             Text(
                 text = "(${category.percent}%)",
-                color = Color.White,
+                color = MaterialTheme.colorScheme.primary,
                 fontSize = 18.sp,
                 modifier = Modifier.padding(4.dp)
             )

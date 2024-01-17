@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import javax.inject.Inject
 
-interface Date {
+interface DateTime {
     val listOfMonth: List<Month>
 
     val nowDate: List<String>
@@ -17,7 +17,7 @@ interface Date {
 
     fun month(year: String, month: Int): Month
 
-    class Base @Inject constructor() : com.example.expensesmanager.domain.Date {
+    class Base @Inject constructor() : DateTime {
         override val listOfMonth = listOf(
             Month(name = "January", days = 31),
             Month(name = "February", days = 28),

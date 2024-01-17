@@ -17,11 +17,12 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.expensesmanager.ui.screens.start.StartViewModel
 import java.util.Currency
 
 @Composable
-fun OperationItem(icon: ImageVector, name: String, category: String, income: Int, currency: String) {
-    val color = if (income >= 0) Color.Green else Color.Red
+fun OperationItem(icon: ImageVector, name: String, category: String, income: Int, currency: String, viewModel: StartViewModel) {
+    val color = viewModel.operationItemColor(income)
 
     Row(
         modifier = Modifier.padding(vertical = 32.dp),

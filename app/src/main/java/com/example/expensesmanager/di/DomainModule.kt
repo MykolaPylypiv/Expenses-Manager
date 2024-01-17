@@ -1,7 +1,7 @@
 package com.example.expensesmanager.di
 
 import com.example.expensesmanager.core.Mapper
-import com.example.expensesmanager.domain.Date
+import com.example.expensesmanager.domain.DateTime
 import com.example.expensesmanager.domain.mapper.MapToUi
 import dagger.Module
 import dagger.Provides
@@ -13,8 +13,8 @@ import dagger.hilt.android.components.ViewModelComponent
 class DomainModule {
 
     @Provides
-    fun provideDate(): Date = Date.Base()
+    fun provideDate(): DateTime = DateTime.Base()
 
     @Provides
-    fun provideMapper(): Mapper<Date, String> = MapToUi()
+    fun provideMapper(): Mapper<DateTime, String> = MapToUi()
 }

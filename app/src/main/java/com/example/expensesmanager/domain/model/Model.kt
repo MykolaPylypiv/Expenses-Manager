@@ -32,7 +32,3 @@ data class Category(
 )
 
 data class CategoryIcon(val text: String, val icon: ImageVector)
-
-data class OperationIcon(
-    val icon: ImageVector, val name: String, val category: String, val income: Int
-)

@@ -40,7 +40,7 @@ import com.example.expensesmanager.ui.screens.start.components.SmallLayer
 @Composable
 fun StartScreen(navController: NavController, viewModel: StartViewModel, language: Language) {
     val operations by viewModel.operations.collectAsState(initial = listOf())
-    val settings = viewModel.settings.collectAsState(initial = Settings())
+    val settings by viewModel.settings.collectAsState(initial = Settings())
 
     val color = Color(0xffEA8D8D)
     val color2 = Color(0xffA890FE)
@@ -62,7 +62,7 @@ fun StartScreen(navController: NavController, viewModel: StartViewModel, languag
         item {
             GeneralInformation(
                 viewModel = viewModel,
-                currency = settings.value.currency,
+                currency = settings.currency,
                 operations = operations,
                 language = language
             )
@@ -129,7 +129,8 @@ fun StartScreen(navController: NavController, viewModel: StartViewModel, languag
                         name = operation.name,
                         category = operation.category,
                         income = operation.sum,
-                        currency = settings.value.currency
+                        currency = settings.currency,
+                        viewModel = viewModel
                     )
                 }
             }

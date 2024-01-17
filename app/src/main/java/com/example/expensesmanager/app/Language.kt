@@ -29,7 +29,8 @@ sealed class Language(
     val avgCostsPerDay: String,
     val idealExpensesPerDay: String,
     val statistics: String,
-    val operations: String
+    val operations: String,
+    val categories: String,
 ) {
 
     object English : Language(
@@ -61,7 +62,8 @@ sealed class Language(
         avgCostsPerDay = "Avg costs per day",
         idealExpensesPerDay = "Ideal expenses per day",
         statistics = "Statistics",
-        operations = "Operations"
+        operations = "Operations",
+        categories = "Categories"
     )
 
     object Ukraine : Language(
@@ -94,5 +96,6 @@ sealed class Language(
         idealExpensesPerDay = "Ідеальні витрати в день",
         statistics = "Статистика",
         operations = "Транзакції",
+        categories = "Категорії"
     )
 }

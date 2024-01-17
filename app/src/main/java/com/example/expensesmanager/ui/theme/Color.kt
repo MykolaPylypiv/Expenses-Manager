@@ -7,11 +7,13 @@ import androidx.compose.ui.graphics.Color
 val darkColorScheme = darkColorScheme(
     primary = Color.White,
     secondary = Color.Black,
-    tertiary = Color.LightGray
+    tertiary = Color.LightGray,
+    onBackground = Color(0xFF363837)
 )
 
 val lightColorScheme = lightColorScheme(
     primary = Color.Black,
     secondary = Color.White,
     tertiary = Color.DarkGray,
+    onBackground = Color.White,
 )

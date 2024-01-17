@@ -50,7 +50,11 @@ fun SettingsScreen(
 
     Scaffold(topBar = {
         TopAppBar(title = {
-            Text(text = language.settings, fontSize = 24.sp, color = MaterialTheme.colorScheme.primary)
+            Text(
+                text = language.settings,
+                fontSize = 24.sp,
+                color = MaterialTheme.colorScheme.primary
+            )
         }, navigationIcon = {
             IconButton(onClick = { navController.navigate(NavigationTree.Start.screenRoute) }) {
                 Icon(imageVector = Icons.Filled.KeyboardArrowLeft, contentDescription = "Back")
@@ -98,8 +102,9 @@ fun SettingsScreen(
                 ) {
                     DropdownMenuItem(text = {
                         Text(
-                            if (settings.value.isEnglish) language.unselectedLanguage else language.selectLanguage,
-                            color = MaterialTheme.colorScheme.primary
+                            viewModel.unselectedLanguage(
+                                isEnglish = settings.value.isEnglish, language = language
+                            ), color = MaterialTheme.colorScheme.primary
                         )
                     }, onClick = {
                         val newSettings = Settings(
@@ -107,13 +112,15 @@ fun SettingsScreen(
                             currency = settings.value.currency,
                             isEnglish = false
                         )
+
                         viewModel.saveSettings(settings = newSettings)
                         dialog.value = false
                     })
                     DropdownMenuItem(text = {
                         Text(
-                            if (settings.value.isEnglish) language.selectLanguage else language.unselectedLanguage,
-                            color = MaterialTheme.colorScheme.primary
+                            viewModel.selectedLanguage(
+                                isEnglish = settings.value.isEnglish, language = language
+                            ), color = MaterialTheme.colorScheme.primary
                         )
                     }, onClick = {
                         val newSettings = Settings(
@@ -121,6 +128,7 @@ fun SettingsScreen(
                             currency = settings.value.currency,
                             isEnglish = true
                         )
+
                         viewModel.saveSettings(settings = newSettings)
                         dialog.value = false
                     })
@@ -133,7 +141,11 @@ fun SettingsScreen(
                 modifier = Modifier.padding(start = 25.dp, end = 25.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = language.theme, fontSize = 20.sp, color = MaterialTheme.colorScheme.primary)
+                Text(
+                    text = language.theme,
+                    fontSize = 20.sp,
+                    color = MaterialTheme.colorScheme.primary
+                )
 
                 Spacer(modifier = Modifier.weight(1F))
 
@@ -146,6 +158,7 @@ fun SettingsScreen(
                             currency = settings.value.currency,
                             isEnglish = settings.value.isEnglish
                         )
+
                         viewModel.saveSettings(settings = newSettings)
                     },
                 )
@@ -164,7 +177,11 @@ fun SettingsScreen(
 
             TextButton(modifier = Modifier.padding(start = 10.dp, end = 25.dp),
                 onClick = { viewModel.deleteAll() }) {
-                Text(text = language.clearOperations, fontSize = 20.sp, color = MaterialTheme.colorScheme.primary)
+                Text(
+                    text = language.clearOperations,
+                    fontSize = 20.sp,
+                    color = MaterialTheme.colorScheme.primary
+                )
             }
 
         }
