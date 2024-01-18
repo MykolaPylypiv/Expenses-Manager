@@ -2,6 +2,7 @@ package com.example.expensesmanager.ui.screens.settings
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.expensesmanager.R
 import com.example.expensesmanager.app.Language
 import com.example.expensesmanager.data.Currency
 import com.example.expensesmanager.data.repository.CategoryRepository
@@ -25,6 +26,12 @@ class SettingsViewModel @Inject constructor(
 
     val incomesCategories = categoryRepository.incomesCategories()
     val costsCategories = categoryRepository.costsCategories()
+
+    fun isEmptyList(name: String, language: Language) = name == language.empty
+
+    fun categoriesAudit(list: List<Category>, language: Language): List<Category> {
+        return list.ifEmpty { listOf(Category(name = language.empty, iconId = R.drawable.delete_icon)) }
+    }
 
     fun deleteALlCategories() {
         viewModelScope.launch {

@@ -68,6 +68,9 @@ class AddViewModel @Inject constructor(
         else if (operation.name.isEmpty()) Toast.makeText(
             context, "Please, enter name", Toast.LENGTH_SHORT
         ).show()
+        else if (operation.name == "Empty") Toast.makeText(
+            context, "Category cannot have a name \"Empty\"", Toast.LENGTH_SHORT
+        ).show()
         else if (operation.category.isEmpty()) Toast.makeText(
             context, "Please, select category", Toast.LENGTH_SHORT
         ).show()

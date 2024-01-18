@@ -36,7 +36,12 @@ sealed class Language(
     val setIcon: String,
     val create: String,
     val changeCategories: String,
-    val deleteAll: String
+    val deleteAll: String,
+    val yes: String,
+    val no: String,
+    val deleteAllOperations: String,
+    val textDeleteAllOperations: String,
+    val empty: String,
 ) {
 
     object English : Language(
@@ -76,6 +81,11 @@ sealed class Language(
         create = "Create",
         changeCategories = "Change categories",
         deleteAll = "Delete all",
+        yes = "Yes",
+        no = "No",
+        deleteAllOperations = "Delete all operations",
+        textDeleteAllOperations = "Are you sure you want to delete all operations ?",
+        empty = "Empty",
     )
 
     object Ukraine : Language(
@@ -114,6 +124,11 @@ sealed class Language(
         setIcon = "Встановити зображення",
         create = "Створити",
         changeCategories = "Змінити категорії",
-        deleteAll = "Видалити всі"
+        deleteAll = "Видалити всі",
+        yes = "Так",
+        no = "Ні",
+        deleteAllOperations = "Видалення всіх операцій",
+        textDeleteAllOperations = "Ви впевнені, що хочете видалити всі операції ?",
+        empty = "Пусто",
     )
 }
