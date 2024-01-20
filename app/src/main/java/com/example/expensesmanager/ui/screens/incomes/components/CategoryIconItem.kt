@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.sp
 import com.example.expensesmanager.ui.screens.incomes.AddViewModel
 
 @Composable
-fun CategoryIconItem(viewModel: AddViewModel, text: String, icon: Int) {
+fun CategoryIconItem(viewModel: AddViewModel, text: String, icon: Int, tint: Color) {
     Column(verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
@@ -34,7 +34,7 @@ fun CategoryIconItem(viewModel: AddViewModel, text: String, icon: Int) {
             painter = painterResource(id = icon),
             contentDescription = text,
             modifier = Modifier.padding(8.dp),
-            tint = MaterialTheme.colorScheme.tertiary
+            tint = tint
         )
 
         Text(

@@ -74,33 +74,35 @@ fun ChangeCategories(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Spacer(
-                    modifier = Modifier
-                        .padding(horizontal = 5.dp)
-                        .height(1.dp)
-                        .weight(1f)
-                        .background(MaterialTheme.colorScheme.tertiary)
-                )
-
-                Text(
-                    text = language.costs,
-                    fontSize = 22.sp,
-                    color = MaterialTheme.colorScheme.primary
-                )
-
-                Spacer(
-                    modifier = Modifier
-                        .padding(horizontal = 5.dp)
-                        .height(1.dp)
-                        .weight(1f)
-                        .background(MaterialTheme.colorScheme.tertiary)
-                )
-            }
-
             LazyColumn(
                 modifier = Modifier.fillMaxWidth()
             ) {
+                item {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Spacer(
+                            modifier = Modifier
+                                .padding(horizontal = 5.dp)
+                                .height(1.dp)
+                                .weight(1f)
+                                .background(MaterialTheme.colorScheme.tertiary)
+                        )
+
+                        Text(
+                            text = language.costs,
+                            fontSize = 22.sp,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+
+                        Spacer(
+                            modifier = Modifier
+                                .padding(horizontal = 5.dp)
+                                .height(1.dp)
+                                .weight(1f)
+                                .background(MaterialTheme.colorScheme.tertiary)
+                        )
+                    }
+                }
+
                 items(
                     viewModel.categoriesAudit(
                         list = costsCategories, language = language
@@ -108,37 +110,35 @@ fun ChangeCategories(
                 ) { category ->
                     CategoryItem(category = category, viewModel = viewModel, language = language)
                 }
-            }
 
-            Spacer(modifier = Modifier.height(16.dp))
+                item {
+                    Spacer(modifier = Modifier.height(16.dp))
 
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Spacer(
-                    modifier = Modifier
-                        .padding(horizontal = 5.dp)
-                        .height(1.dp)
-                        .weight(1f)
-                        .background(MaterialTheme.colorScheme.tertiary)
-                )
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Spacer(
+                            modifier = Modifier
+                                .padding(horizontal = 5.dp)
+                                .height(1.dp)
+                                .weight(1f)
+                                .background(MaterialTheme.colorScheme.tertiary)
+                        )
 
-                Text(
-                    text = language.income,
-                    fontSize = 22.sp,
-                    color = MaterialTheme.colorScheme.primary
-                )
+                        Text(
+                            text = language.income,
+                            fontSize = 22.sp,
+                            color = MaterialTheme.colorScheme.primary
+                        )
 
-                Spacer(
-                    modifier = Modifier
-                        .padding(horizontal = 5.dp)
-                        .height(1.dp)
-                        .weight(1f)
-                        .background(MaterialTheme.colorScheme.tertiary)
-                )
-            }
+                        Spacer(
+                            modifier = Modifier
+                                .padding(horizontal = 5.dp)
+                                .height(1.dp)
+                                .weight(1f)
+                                .background(MaterialTheme.colorScheme.tertiary)
+                        )
+                    }
+                }
 
-            LazyColumn(
-                modifier = Modifier.fillMaxWidth()
-            ) {
                 items(
                     viewModel.categoriesAudit(
                         list = incomesCategories, language = language

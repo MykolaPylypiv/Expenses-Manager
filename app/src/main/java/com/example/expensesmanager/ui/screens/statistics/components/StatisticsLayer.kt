@@ -14,10 +14,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -25,6 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.expensesmanager.app.Language
+import com.example.expensesmanager.domain.model.Category
 import com.example.expensesmanager.domain.model.Operation
 import com.example.expensesmanager.domain.model.Settings
 import com.example.expensesmanager.ui.screens.AccentFinanceDivider
@@ -37,9 +34,9 @@ fun StatisticsLayer(
     operations: List<Operation>,
     settings: Settings,
     language: Language,
+    costsCategories: List<Category>,
+    incomesCategories: List<Category>
 ) {
-    val chartValues = listOf(110f, 90f, 60f, 40f, 30f)
-
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -60,7 +57,11 @@ fun StatisticsLayer(
                 .animateContentSize()) {
                 Text(
                     text = language.costs,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.primary.copy(
+                        viewModel.alpha(
+                            viewModel.isCosts, 1F
+                        )
+                    ),
                     modifier = Modifier
                         .padding(top = 16.dp)
                         .fillMaxWidth()
@@ -71,7 +72,7 @@ fun StatisticsLayer(
 
                 Text(
                     text = "${viewModel.costs(operations)}  ${settings.currency}",
-                    color = Color.Red.copy(viewModel.costsTextColor(viewModel.isCosts, alpha)),
+                    color = Color.Red.copy(viewModel.alpha(viewModel.isCosts, alpha)),
                     modifier = Modifier
                         .padding(top = 16.dp, bottom = 16.dp)
                         .fillMaxWidth(),
@@ -91,7 +92,11 @@ fun StatisticsLayer(
                 }) {
                 Text(
                     text = language.income,
-                    color = MaterialTheme.colorScheme.primary,
+                    color = MaterialTheme.colorScheme.primary.copy(
+                        viewModel.alpha(
+                            !viewModel.isCosts, 1F
+                        )
+                    ),
                     modifier = Modifier
                         .padding(top = 16.dp)
                         .fillMaxWidth()
@@ -102,7 +107,7 @@ fun StatisticsLayer(
 
                 Text(
                     text = "${viewModel.incomes(operations)}  ${settings.currency}",
-                    color = Color.Green.copy(if (!viewModel.isCosts) alpha else 0.4f),
+                    color = Color.Green.copy(viewModel.alpha(!viewModel.isCosts, alpha)),
                     modifier = Modifier
                         .padding(top = 16.dp, bottom = 16.dp)
                         .fillMaxWidth(),
@@ -110,11 +115,20 @@ fun StatisticsLayer(
                     textAlign = TextAlign.Center
                 )
 
-                AccentFinanceDivider(isCosts = !viewModel.isCosts, alpha = alpha, color = Color.Green)
+                AccentFinanceDivider(
+                    isCosts = !viewModel.isCosts, alpha = alpha, color = Color.Green
+                )
 
             }
         }
 
-        ChartLayer(chartValues = chartValues)
+        ChartLayer(
+            chartValues = viewModel.chartValues(
+                isCosts = viewModel.isCosts,
+                costsCategories = costsCategories,
+                incomesCategories = incomesCategories,
+                operations = operations
+            ), chartColors = viewModel.colors, language = language
+        )
     }
 }

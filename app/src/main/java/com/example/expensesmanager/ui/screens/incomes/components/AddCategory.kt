@@ -57,6 +57,7 @@ fun AddCategory(language: Language, viewModel: AddViewModel, context: Context) {
         modifier = Modifier
             .padding(16.dp)
             .clip(RoundedCornerShape(10))
+            .height(192.dp)
             .border(2.dp, Color.DarkGray, RoundedCornerShape(10))
             .clickable { stateDialog = true }) {
         Icon(
@@ -193,7 +194,7 @@ fun AddCategory(language: Language, viewModel: AddViewModel, context: Context) {
                     }
 
                     items(viewModel.listIcons(language)) { icons ->
-                        IconRowItem(icons = icons, viewModel = viewModel)
+                        IconRowItem(categoryIcon = icons, viewModel = viewModel)
 
                         Spacer(modifier = Modifier.height(padding))
                     }

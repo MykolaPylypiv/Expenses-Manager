@@ -4,27 +4,29 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
+import com.example.expensesmanager.app.Language
 import com.example.expensesmanager.core.Mapper
 import com.example.expensesmanager.data.repository.OperationRepository
 import com.example.expensesmanager.data.store.StoreSettings
 import com.example.expensesmanager.domain.DateTime
+import com.example.expensesmanager.domain.model.MapToUiParameters
 import com.example.expensesmanager.domain.model.Operation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class StartViewModel @Inject constructor(
-    mapper: Mapper<DateTime, String>,
+    private val mapper: Mapper<MapToUiParameters, String>,
     private val date: DateTime,
     operationRepository: OperationRepository,
     settings: StoreSettings
 ) : ViewModel() {
 
-    val textDate = mapper.map(date)
-
     val operations = operationRepository.operation()
 
     val settings = settings.get()
+
+    fun textDate(language: Language) = mapper.map(MapToUiParameters(dateTime = date, language = language))
 
     fun openCloseShape(expanded: Boolean) = if (!expanded) 20 else 10
 
@@ -95,8 +97,8 @@ class StartViewModel @Inject constructor(
         return -costs
     }
 
-    fun avgCosts(operations: List<Operation>): Int {
-        val day = date.month(year = date.year, month = date.monthNumber - 1)
+    fun avgCosts(operations: List<Operation>, language: Language): Int {
+        val day = date.month(year = date.year, month = date.monthNumber - 1, language = language)
 
         var costs = 0
 
@@ -107,8 +109,8 @@ class StartViewModel @Inject constructor(
         return -(costs / day.days)
     }
 
-    fun idealCosts(operations: List<Operation>): Int {
-        val day = date.month(year = date.year, month = date.monthNumber - 1)
+    fun idealCosts(operations: List<Operation>, language: Language): Int {
+        val day = date.month(year = date.year, month = date.monthNumber - 1, language = language)
 
         var budget = 0
 

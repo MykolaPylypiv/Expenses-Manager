@@ -1,6 +1,5 @@
 package com.example.expensesmanager.ui.screens.start
 
-import android.annotation.SuppressLint
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
@@ -36,7 +35,6 @@ import com.example.expensesmanager.ui.screens.start.components.GeneralInformatio
 import com.example.expensesmanager.ui.screens.start.components.OperationItem
 import com.example.expensesmanager.ui.screens.start.components.SmallLayer
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun StartScreen(navController: NavController, viewModel: StartViewModel, language: Language) {
     val operations by viewModel.operations.collectAsState(initial = listOf())
@@ -56,8 +54,7 @@ fun StartScreen(navController: NavController, viewModel: StartViewModel, languag
                         color.copy(0.3f), color2.copy(0.3f)
                     )
                 )
-            )
-            .animateContentSize(), horizontalAlignment = Alignment.CenterHorizontally
+            ), horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
             GeneralInformation(

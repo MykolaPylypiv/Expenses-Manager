@@ -11,8 +11,10 @@ import com.example.expensesmanager.app.Language
 import com.example.expensesmanager.data.repository.CategoryRepository
 import com.example.expensesmanager.data.repository.OperationRepository
 import com.example.expensesmanager.data.store.StoreSettings
+import com.example.expensesmanager.domain.CategoryList
 import com.example.expensesmanager.domain.ListIcons
 import com.example.expensesmanager.domain.model.Category
+import com.example.expensesmanager.domain.model.CategoryIcon
 import com.example.expensesmanager.domain.model.Operation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -23,6 +25,7 @@ import javax.inject.Inject
 class AddViewModel @Inject constructor(
     private val operationRepository: OperationRepository,
     private val categoryRepository: CategoryRepository,
+    val categoryList: CategoryList.Base,
     storeSettings: StoreSettings
 ) : ViewModel() {
 
@@ -38,15 +41,15 @@ class AddViewModel @Inject constructor(
     var iconId = 0
 
     fun listIcons(language: Language) = listOf(
-        ListIcons.Food(language),
-        ListIcons.Cafe(language),
-        ListIcons.Transport(language),
-        ListIcons.Health(language),
-        ListIcons.Pets(language),
-        ListIcons.Family(language),
-        ListIcons.Clothes(language),
-        ListIcons.Entertainment(language),
-        ListIcons.Salary(language)
+        ListIcons.Food(language, categoryList.colors[0]),
+        ListIcons.Cafe(language, categoryList.colors[1]),
+        ListIcons.Transport(language, categoryList.colors[2]),
+        ListIcons.Health(language, categoryList.colors[3]),
+        ListIcons.Pets(language, categoryList.colors[4]),
+        ListIcons.Family(language, categoryList.colors[5]),
+        ListIcons.Clothes(language, categoryList.colors[6]),
+        ListIcons.Entertainment(language, categoryList.colors[7]),
+        ListIcons.Salary(language, categoryList.colors[8])
     )
 
     fun createCategory(category: Category, context: Context) {
@@ -81,6 +84,22 @@ class AddViewModel @Inject constructor(
     else if (value[0] == '0' && value.length > 1) value.drop(1)
     else value
 
-    fun financesList(isCosts: Boolean, incomes: List<Category>, costs: List<Category>) =
-        if (isCosts) costs else incomes
+    fun financesList(isCosts: Boolean, incomes: List<Category>, costs: List<Category>): List<CategoryIcon> {
+        val list = if (isCosts) costs else incomes
+        val newList = mutableListOf<CategoryIcon>()
+
+        list.map { category ->
+            newList.add(
+                CategoryIcon(
+                    name = category.name,
+                    color = categoryList.colors[newList.size],
+                    iconId = category.iconId
+                )
+            )
+        }
+
+        return newList.toList()
+    }
+
+    fun alpha(isCosts: Boolean) = if (!isCosts) 1F else 0.4F
 }

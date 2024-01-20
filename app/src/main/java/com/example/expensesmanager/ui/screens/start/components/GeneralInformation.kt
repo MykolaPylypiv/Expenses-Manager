@@ -32,7 +32,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -186,7 +185,7 @@ fun GeneralInformation(
         Spacer(modifier = Modifier.height(viewModel.openCloseSpacer(expanded, 20.dp)))
 
         Text(
-            text = "${language.date}: 15 ${viewModel.textDate}, 2023",
+            text = "${language.date}: ${viewModel.textDate(language = language)}",
             color = MaterialTheme.colorScheme.primary,
             fontSize = 18.sp,
             modifier = Modifier.padding(start = 24.dp)
@@ -215,7 +214,11 @@ fun GeneralInformation(
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
-            text = "${language.avgCostsPerDay}: ${viewModel.avgCosts(operations)} $currency",
+            text = "${language.avgCostsPerDay}: ${
+                viewModel.avgCosts(
+                    operations = operations, language = language
+                )
+            } $currency",
             color = MaterialTheme.colorScheme.primary,
             fontSize = 18.sp,
             modifier = Modifier.padding(start = 24.dp)
@@ -224,7 +227,11 @@ fun GeneralInformation(
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
-            text = "${language.idealExpensesPerDay}: ${viewModel.idealCosts(operations)} $currency",
+            text = "${language.idealExpensesPerDay}: ${
+                viewModel.idealCosts(
+                    operations = operations, language = language
+                )
+            } $currency",
             color = MaterialTheme.colorScheme.primary,
             fontSize = 18.sp,
             modifier = Modifier.padding(start = 24.dp)

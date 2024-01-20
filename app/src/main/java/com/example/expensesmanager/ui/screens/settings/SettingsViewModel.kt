@@ -18,8 +18,8 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(
     private val operationRepository: OperationRepository,
     private val categoryRepository: CategoryRepository,
-    private val storeSettings: StoreSettings,
     private val currency: Currency,
+    private val storeSettings: StoreSettings,
 ) : ViewModel() {
 
     val settings = storeSettings.get()
@@ -30,7 +30,13 @@ class SettingsViewModel @Inject constructor(
     fun isEmptyList(name: String, language: Language) = name == language.empty
 
     fun categoriesAudit(list: List<Category>, language: Language): List<Category> {
-        return list.ifEmpty { listOf(Category(name = language.empty, iconId = R.drawable.delete_icon)) }
+        return list.ifEmpty {
+            listOf(
+                Category(
+                    name = language.empty, iconId = R.drawable.delete_icon
+                )
+            )
+        }
     }
 
     fun deleteALlCategories() {

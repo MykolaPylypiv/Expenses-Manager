@@ -34,6 +34,8 @@ fun StatisticsScreen(
     navController: NavController, viewModel: StatisticsViewModel, language: Language
 ) {
     val operations by viewModel.operations.collectAsState(initial = listOf())
+    val incomesCategories by viewModel.incomesCategories.collectAsState(initial = listOf())
+    val costsCategories by viewModel.costsCategories.collectAsState(initial = listOf())
     val settings by viewModel.settings.collectAsState(initial = Settings())
 
     val alpha = 0.8f
@@ -61,7 +63,7 @@ fun StatisticsScreen(
                 Spacer(modifier = Modifier.weight(0.6f))
 
                 Text(
-                    text = viewModel.textDate,
+                    text = viewModel.textDate(language = language),
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.padding(top = 12.dp),
                     fontSize = 24.sp
@@ -76,6 +78,8 @@ fun StatisticsScreen(
                 viewModel = viewModel,
                 alpha = alpha,
                 operations = operations,
+                costsCategories = costsCategories,
+                incomesCategories = incomesCategories,
                 settings = settings,
                 language = language
             )
@@ -94,8 +98,13 @@ fun StatisticsScreen(
         }
 
         items(
-            items = viewModel.financesList(
-                isCosts = viewModel.isCosts, language = language, alpha = alpha
+            items = viewModel.categoryOperationList(
+                isCosts = viewModel.isCosts,
+                language = language,
+                alpha = alpha,
+                costsCategories = costsCategories,
+                incomesCategories = incomesCategories,
+                operations = operations
             )
         ) { item ->
             CategoryItem(categoryOperation = item, settings = settings)

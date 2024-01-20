@@ -163,7 +163,7 @@ fun AddScreen(
                         .animateContentSize()) {
                         Text(
                             text = language.costs,
-                            color = MaterialTheme.colorScheme.primary,
+                            color = MaterialTheme.colorScheme.primary.copy(viewModel.alpha(!isCosts)),
                             modifier = Modifier
                                 .padding(top = 16.dp)
                                 .fillMaxWidth(),
@@ -182,7 +182,7 @@ fun AddScreen(
                         .animateContentSize()) {
                         Text(
                             text = language.income,
-                            color = MaterialTheme.colorScheme.primary,
+                            color = MaterialTheme.colorScheme.primary.copy(viewModel.alpha(isCosts)),
                             modifier = Modifier
                                 .padding(top = 16.dp)
                                 .fillMaxWidth(),
@@ -206,7 +206,8 @@ fun AddScreen(
                     CategoryIconItem(
                         viewModel = viewModel,
                         text = categoryIcon.name,
-                        icon = categoryIcon.iconId
+                        icon = categoryIcon.iconId,
+                        tint = categoryIcon.color
                     )
                 }
 

@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -20,13 +21,13 @@ import com.example.expensesmanager.domain.ListIcons
 import com.example.expensesmanager.ui.screens.incomes.AddViewModel
 
 @Composable
-fun IconRowItem(icons: ListIcons, viewModel: AddViewModel) {
+fun IconRowItem(categoryIcon: ListIcons, viewModel: AddViewModel) {
     val fontSize = 24.sp
     val padding = 16.dp
 
     Row(verticalAlignment = Alignment.CenterVertically) {
         Text(
-            text = icons.name, color = MaterialTheme.colorScheme.primary, fontSize = fontSize
+            text = categoryIcon.name, color = MaterialTheme.colorScheme.primary, fontSize = fontSize
         )
 
         Spacer(
@@ -39,18 +40,18 @@ fun IconRowItem(icons: ListIcons, viewModel: AddViewModel) {
     }
 
     Row {
-        icons.list.forEach { id ->
+        categoryIcon.list.forEach { id ->
             IconRowButton(
                 modifier = Modifier
                     .weight(1F)
-                    .padding(padding), id = id, viewModel = viewModel
+                    .padding(padding), id = id, viewModel = viewModel, categoryIcon.color
             )
         }
     }
 }
 
 @Composable
-fun IconRowButton(modifier: Modifier, id: Int, viewModel: AddViewModel) {
+fun IconRowButton(modifier: Modifier, id: Int, viewModel: AddViewModel, tint: Color) {
     IconButton(onClick = {
         viewModel.iconId = id
         viewModel.iconDialog = false
@@ -58,7 +59,7 @@ fun IconRowButton(modifier: Modifier, id: Int, viewModel: AddViewModel) {
         Icon(
             painter = painterResource(id = id),
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.tertiary
+            tint = tint
         )
     }
 }
