@@ -2,11 +2,9 @@ package com.example.expensesmanager.ui.screens.registration
 
 import android.content.Context
 import android.widget.Toast
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,7 +14,6 @@ import com.example.expensesmanager.data.Currency
 import com.example.expensesmanager.data.repository.CategoryRepository
 import com.example.expensesmanager.data.store.StoreSettings
 import com.example.expensesmanager.domain.model.Category
-import com.example.expensesmanager.domain.model.CategoryIcon
 import com.example.expensesmanager.domain.model.Settings
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -38,7 +35,9 @@ class RegistrationViewModel @Inject constructor(
 
     var selectCurrency: String = ""
 
-    var isCreateCategory by  mutableStateOf(true)
+    var isCreateCategory by mutableStateOf(true)
+
+    val isCreateList = mutableStateListOf(true, true, true, true, true, true, true, true, true)
 
     fun sumValue(value: String): String = if (value == "") "0"
     else if (value[0] == '0' && value.length > 1) value.drop(1)
@@ -97,29 +96,28 @@ class RegistrationViewModel @Inject constructor(
         return true
     }
 
-    fun createDefaultCategory(language: Language, isCreateCategory: Boolean) {
-        val categoryIconList = listOf(
-            Category(name = language.food, isCosts = true, iconId = R.drawable.food1),
-            Category(name = language.cafe, isCosts = true, iconId = R.drawable.cafe1),
-            Category(name = language.transport, isCosts = true, iconId = R.drawable.transport1),
-            Category(name = language.health, isCosts = true, iconId = R.drawable.health1),
-            Category(name = language.pets, isCosts = true, iconId = R.drawable.pets1),
-            Category(name = language.family, isCosts = true, iconId = R.drawable.family1),
-            Category(name = language.clothes, isCosts = true, iconId = R.drawable.clothes1),
-            Category(
-                name = language.entertainment,
-                isCosts = true,
-                iconId = R.drawable.entertainment1
-            ),
-            Category(name = language.salary, isCosts = false, iconId = R.drawable.salary1)
-        )
+    fun defaultCategories(language: Language) = listOf(
+        Category(name = language.food, isCosts = true, iconId = R.drawable.food1),
+        Category(name = language.cafe, isCosts = true, iconId = R.drawable.cafe1),
+        Category(name = language.transport, isCosts = true, iconId = R.drawable.transport1),
+        Category(name = language.health, isCosts = true, iconId = R.drawable.health1),
+        Category(name = language.pets, isCosts = true, iconId = R.drawable.pets1),
+        Category(name = language.family, isCosts = true, iconId = R.drawable.family1),
+        Category(name = language.clothes, isCosts = true, iconId = R.drawable.clothes1),
+        Category(
+            name = language.entertainment, isCosts = true, iconId = R.drawable.entertainment1
+        ),
+        Category(name = language.salary, isCosts = false, iconId = R.drawable.salary1)
+    )
 
-        if (isCreateCategory)
-            viewModelScope.launch(Dispatchers.IO) {
-                categoryIconList.map { category ->
-                    categoryRepository.insert(category)
-                }
+    fun createDefaultCategory(language: Language, isCreateList: List<Boolean>) {
+        val categoryIconList = defaultCategories(language).toMutableList()
+
+        categoryIconList.map { category ->
+            if (isCreateList[categoryIconList.indexOf(category)]) viewModelScope.launch(Dispatchers.IO) {
+                categoryRepository.insert(category)
             }
+        }
 
     }
 }

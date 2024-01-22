@@ -57,6 +57,10 @@ sealed class Language(
     val passwordIncorrect: String,
     val passwordNotMatch: String,
     val currencySelect: String,
+    val nickname: String,
+    val forgotPassword: String,
+    val signIn: String,
+    val changePassword: String,
 ) {
 
     object English : Language(
@@ -128,7 +132,11 @@ sealed class Language(
         loginIsLonger = "Enter a login with less than 16 characters",
         passwordIncorrect = "Enter a password with 4 to 16 characters",
         passwordNotMatch = "Passwords do not match",
-        currencySelect = "Select currency"
+        currencySelect = "Select currency",
+        nickname = "Nickname",
+        forgotPassword = "Forgot password ?",
+        signIn = "Sign in",
+        changePassword = "Change password",
     )
 
     object Ukraine : Language(
@@ -200,6 +208,10 @@ sealed class Language(
         loginIsLonger = "Введіть логін в якому менше 16 символів",
         passwordIncorrect = "Введіть пароль в якому від 4 до 16 симолів",
         passwordNotMatch = "Паролі не збігаються",
-        currencySelect = "Виберіть валюту"
+        currencySelect = "Виберіть валюту",
+        nickname = "Логін",
+        forgotPassword = "Забули пароль ?",
+        signIn = "Зареєструватись",
+        changePassword = "Змінити пароль"
     )
 }

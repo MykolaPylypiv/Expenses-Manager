@@ -63,7 +63,7 @@ fun RegistrationScreen(
                 fontSize = 24.sp
             )
         }, navigationIcon = {
-            IconButton(onClick = { navController.navigate(NavigationTree.Start.screenRoute) }) {
+            IconButton(onClick = { navController.navigate(NavigationTree.Login.screenRoute) }) {
                 Icon(imageVector = Icons.Filled.KeyboardArrowLeft, contentDescription = "Back")
             }
         })
@@ -118,10 +118,11 @@ fun RegistrationScreen(
                                 currency = viewModel.selectCurrency
                             )
                         ) {
-                            viewModel.createDefaultCategory(language = language, isCreateCategory = viewModel.isCreateCategory)
+                            viewModel.createDefaultCategory(
+                                language = language, isCreateList = viewModel.isCreateList
+                            )
                             navController.navigate(NavigationTree.Start.screenRoute)
-                        }
-                        else if (page != 2 && viewModel.isValidateFirstPage(
+                        } else if (page != 2 && viewModel.isValidateFirstPage(
                                 language = language,
                                 login = viewModel.login,
                                 password = viewModel.password,

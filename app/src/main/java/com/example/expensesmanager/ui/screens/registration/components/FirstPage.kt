@@ -27,7 +27,7 @@ fun FirstPage(language: Language, viewModel: RegistrationViewModel) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 24.dp, end = 24.dp, top = 48.dp, bottom = 24.dp),
-        label = { Text(text = language.login) },
+        label = { Text(text = language.nickname) },
         colors = TextFieldDefaults.textFieldColors(
             containerColor = MaterialTheme.colorScheme.background,
             focusedIndicatorColor = Color.LightGray,

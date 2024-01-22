@@ -1,13 +1,9 @@
 package com.example.expensesmanager.domain
 
-import android.util.Log
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.ui.graphics.Color
 import com.example.expensesmanager.app.Language
 import com.example.expensesmanager.domain.model.Category
 import com.example.expensesmanager.domain.model.CategoryOperation
-import com.example.expensesmanager.domain.model.CategoryIcon
 import com.example.expensesmanager.domain.model.Operation
 import javax.inject.Inject
 import kotlin.math.roundToInt

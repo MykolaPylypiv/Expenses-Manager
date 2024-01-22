@@ -7,4 +7,6 @@ sealed class NavigationTree(var screenRoute: String) {
     object Add : NavigationTree("add")
     object Statistics : NavigationTree("statistics")
     object Registration : NavigationTree("registration")
+    object Login : NavigationTree("login")
+    object ForgotPassword : NavigationTree("forgotPassword")
 }
