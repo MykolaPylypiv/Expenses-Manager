@@ -1,4 +1,4 @@
-package com.example.expensesmanager.ui.screens
+package com.example.expensesmanager.ui.composable
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.layout.fillMaxWidth

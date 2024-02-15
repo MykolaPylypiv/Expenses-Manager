@@ -39,15 +39,6 @@ fun CategoryItem(category: Category, viewModel: SettingsViewModel, language: Lan
         )
 
         if (!viewModel.isEmptyList(category.name, language = language)) {
-            Spacer(modifier = Modifier.width(8.dp))
-
-            Icon(
-                painter = painterResource(id = category.iconId),
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.tertiary,
-                modifier = Modifier.size(25.dp)
-            )
-
             Spacer(modifier = Modifier.weight(1F))
 
             IconButton(

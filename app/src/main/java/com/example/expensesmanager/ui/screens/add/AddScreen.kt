@@ -1,4 +1,4 @@
-package com.example.expensesmanager.ui.screens.incomes
+package com.example.expensesmanager.ui.screens.add
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
@@ -15,7 +15,6 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -45,9 +44,9 @@ import com.example.expensesmanager.app.Language
 import com.example.expensesmanager.domain.model.Operation
 import com.example.expensesmanager.domain.model.Settings
 import com.example.expensesmanager.navigation.NavigationTree
-import com.example.expensesmanager.ui.screens.AccentFinanceDivider
-import com.example.expensesmanager.ui.screens.incomes.components.AddCategory
-import com.example.expensesmanager.ui.screens.incomes.components.CategoryIconItem
+import com.example.expensesmanager.ui.composable.AccentFinanceDivider
+import com.example.expensesmanager.ui.screens.add.components.AddCategory
+import com.example.expensesmanager.ui.screens.add.components.CategoryIconItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

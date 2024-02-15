@@ -1,4 +1,4 @@
-package com.example.expensesmanager.ui.screens.incomes.components
+package com.example.expensesmanager.ui.screens.add.components
 
 import android.content.Context
 import androidx.compose.foundation.background
@@ -41,7 +41,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.expensesmanager.app.Language
 import com.example.expensesmanager.domain.model.Category
-import com.example.expensesmanager.ui.screens.incomes.AddViewModel
+import com.example.expensesmanager.ui.screens.add.AddViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

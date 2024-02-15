@@ -7,12 +7,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.expensesmanager.app.Language
 import com.example.expensesmanager.navigation.NavigationTree
+import com.example.expensesmanager.ui.screens.account.AccountScreen
+import com.example.expensesmanager.ui.screens.account.AccountViewModel
 import com.example.expensesmanager.ui.screens.forgotPassword.ForgotPasswordScreen
 import com.example.expensesmanager.ui.screens.forgotPassword.ForgotPasswordViewModel
 import com.example.expensesmanager.ui.screens.settings.SettingsScreen
 import com.example.expensesmanager.ui.screens.settings.SettingsViewModel
-import com.example.expensesmanager.ui.screens.incomes.AddScreen
-import com.example.expensesmanager.ui.screens.incomes.AddViewModel
+import com.example.expensesmanager.ui.screens.add.AddScreen
+import com.example.expensesmanager.ui.screens.add.AddViewModel
 import com.example.expensesmanager.ui.screens.login.LoginScreen
 import com.example.expensesmanager.ui.screens.login.LoginViewModel
 import com.example.expensesmanager.ui.screens.registration.RegistrationScreen
@@ -54,6 +56,10 @@ fun ApplicationScreen(language: Language) {
         composable(route = NavigationTree.Statistics.screenRoute) {
             val viewModel = hiltViewModel<StatisticsViewModel>()
             StatisticsScreen(navController = navController, viewModel = viewModel, language = language)
+        }
+        composable(route = NavigationTree.Account.screenRoute) {
+            val viewModel = hiltViewModel<AccountViewModel>()
+            AccountScreen(navController = navController, viewModel = viewModel, language = language)
         }
     }
 }

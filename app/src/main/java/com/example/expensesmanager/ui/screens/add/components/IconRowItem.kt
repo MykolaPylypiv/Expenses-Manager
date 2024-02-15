@@ -1,4 +1,4 @@
-package com.example.expensesmanager.ui.screens.incomes.components
+package com.example.expensesmanager.ui.screens.add.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
@@ -18,7 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.expensesmanager.domain.ListIcons
-import com.example.expensesmanager.ui.screens.incomes.AddViewModel
+import com.example.expensesmanager.ui.screens.add.AddViewModel
 
 @Composable
 fun IconRowItem(categoryIcon: ListIcons, viewModel: AddViewModel) {

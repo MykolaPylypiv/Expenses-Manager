@@ -9,4 +9,5 @@ sealed class NavigationTree(var screenRoute: String) {
     object Registration : NavigationTree("registration")
     object Login : NavigationTree("login")
     object ForgotPassword : NavigationTree("forgotPassword")
+    object Account : NavigationTree("account")
 }

@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -86,7 +87,8 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel, languag
                     fontSize = 16.sp,
                     modifier = Modifier.padding(end = 32.dp).clickable { navController.navigate(NavigationTree.ForgotPassword.screenRoute) },
                     textAlign = TextAlign.End,
-                    color = MaterialTheme.colorScheme.tertiary
+                    color = MaterialTheme.colorScheme.tertiary,
+                    fontStyle = FontStyle.Italic
                 )
             }
 
@@ -114,6 +116,7 @@ fun LoginScreen(navController: NavController, viewModel: LoginViewModel, languag
                 onClick = {
                     navController.navigate(NavigationTree.Start.screenRoute)
                 },
+                shape = RoundedCornerShape(10),
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.background),
                 modifier = Modifier
                     .padding(horizontal = 24.dp, vertical = 12.dp)

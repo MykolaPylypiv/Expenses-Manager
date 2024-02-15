@@ -46,7 +46,7 @@ import com.example.expensesmanager.ui.screens.settings.SettingsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Currency(borderColor: Color, viewModel: SettingsViewModel, settings: Settings, language: Language) {
+fun Currency(viewModel: SettingsViewModel, settings: Settings, language: Language) {
     val stateDialog = remember { mutableStateOf(false) }
     var selectCurrency = settings.currency
     val icon = Icons.Filled.KeyboardArrowDown
@@ -58,7 +58,6 @@ fun Currency(borderColor: Color, viewModel: SettingsViewModel, settings: Setting
             .height(50.dp)
             .padding(start = 10.dp, end = 40.dp)
             .clip(CircleShape)
-            .border(1.dp, borderColor, CircleShape)
             .clickable { stateDialog.value = true },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
@@ -110,7 +109,6 @@ fun Currency(borderColor: Color, viewModel: SettingsViewModel, settings: Setting
 
                 LazyColumn(
                     modifier = Modifier
-                        .clip(RoundedCornerShape(3))
                         .background(MaterialTheme.colorScheme.background)
                         .fillMaxWidth(),
                 ) {

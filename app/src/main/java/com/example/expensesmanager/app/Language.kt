@@ -36,7 +36,7 @@ sealed class Language(
     val createCategories: String,
     val setIcon: String,
     val create: String,
-    val changeCategories: String,
+    val deleteCategories: String,
     val deleteAll: String,
     val yes: String,
     val no: String,
@@ -61,6 +61,10 @@ sealed class Language(
     val forgotPassword: String,
     val signIn: String,
     val changePassword: String,
+    val account: String,
+    val description: String,
+    val exit: String,
+    val dark: String,
 ) {
 
     object English : Language(
@@ -99,7 +103,7 @@ sealed class Language(
         createCategories = "Create categories",
         setIcon = "Set icon",
         create = "Create",
-        changeCategories = "Change categories",
+        deleteCategories = "Delete categories",
         deleteAll = "Delete all",
         yes = "Yes",
         no = "No",
@@ -137,6 +141,10 @@ sealed class Language(
         forgotPassword = "Forgot password ?",
         signIn = "Sign in",
         changePassword = "Change password",
+        account = "Account",
+        description = "Description",
+        exit = "Exit",
+        dark = "Dark",
     )
 
     object Ukraine : Language(
@@ -175,7 +183,7 @@ sealed class Language(
         createCategories = "Створити категорії",
         setIcon = "Встановити зображення",
         create = "Створити",
-        changeCategories = "Змінити категорії",
+        deleteCategories = "Видалити категорії",
         deleteAll = "Видалити всі",
         yes = "Так",
         no = "Ні",
@@ -212,6 +220,10 @@ sealed class Language(
         nickname = "Логін",
         forgotPassword = "Забули пароль ?",
         signIn = "Зареєструватись",
-        changePassword = "Змінити пароль"
+        changePassword = "Змінити пароль",
+        account = "Акаунт",
+        description = "Опис",
+        exit = "Вихід",
+        dark = "Темна",
     )
 }

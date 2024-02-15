@@ -1,4 +1,4 @@
-package com.example.expensesmanager.ui.screens.incomes
+package com.example.expensesmanager.ui.screens.add
 
 import android.content.Context
 import android.widget.Toast

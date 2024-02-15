@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
@@ -137,6 +138,7 @@ fun ForgotPasswordScreen(
                 onClick = {
                     navController.navigate(NavigationTree.Start.screenRoute)
                 },
+                shape = RoundedCornerShape(10),
                 colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.background),
                 modifier = Modifier
                     .padding(horizontal = 24.dp, vertical = 12.dp)

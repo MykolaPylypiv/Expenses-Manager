@@ -24,7 +24,7 @@ import com.example.expensesmanager.app.Language
 import com.example.expensesmanager.domain.model.Category
 import com.example.expensesmanager.domain.model.Operation
 import com.example.expensesmanager.domain.model.Settings
-import com.example.expensesmanager.ui.screens.AccentFinanceDivider
+import com.example.expensesmanager.ui.composable.AccentFinanceDivider
 import com.example.expensesmanager.ui.screens.statistics.StatisticsViewModel
 
 @Composable

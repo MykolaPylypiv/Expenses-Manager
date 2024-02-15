@@ -88,6 +88,15 @@ fun StartScreen(navController: NavController, viewModel: StartViewModel, languag
         item {
             SmallLayer(
                 navController = navController,
+                screenRoute = NavigationTree.Account.screenRoute,
+                title = language.account,
+                padding = 16.dp
+            )
+        }
+
+        item {
+            SmallLayer(
+                navController = navController,
                 screenRoute = NavigationTree.Settings.screenRoute,
                 title = language.settings,
                 padding = 16.dp
@@ -97,7 +106,7 @@ fun StartScreen(navController: NavController, viewModel: StartViewModel, languag
         item {
             Column(
                 modifier = Modifier
-                    .padding(top = 200.dp)
+                    .padding(top = 110.dp)
                     .clip(RoundedCornerShape(6))
                     .animateContentSize(animationSpec = spring(stiffness = Spring.StiffnessMediumLow))
                     .fillMaxWidth()
