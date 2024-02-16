@@ -41,10 +41,10 @@ fun StatisticsLayer(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 15.dp, top = 40.dp, end = 15.dp)
-            .border(2.dp, Color(0xFF363837), RoundedCornerShape(10)),
+            .border(1.dp, MaterialTheme.colorScheme.onTertiary, RoundedCornerShape(10)),
         shape = RoundedCornerShape(10),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.background
+            containerColor = MaterialTheme.colorScheme.background,
         ),
     ) {
         Row(modifier = Modifier.height(150.dp)) {

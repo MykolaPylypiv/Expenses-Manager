@@ -74,6 +74,12 @@ class AddViewModel @Inject constructor(
     fun insert(operation: Operation, context: Context, isCosts: Boolean) {
         if (isCosts) operation.sum = -operation.sum
 
+        if (validateOperation(operation = operation, context = context)) viewModelScope.launch(
+            Dispatchers.IO
+        ) { operationRepository.insert(operation) }
+    }
+
+    fun validateOperation(operation: Operation, context: Context): Boolean {
         if (operation.sum == 0) Toast.makeText(
             context, "Please, enter sum that is different from 0", Toast.LENGTH_SHORT
         ).show()
@@ -86,7 +92,9 @@ class AddViewModel @Inject constructor(
         else if (operation.category.isEmpty()) Toast.makeText(
             context, "Please, select category", Toast.LENGTH_SHORT
         ).show()
-        else viewModelScope.launch(Dispatchers.IO) { operationRepository.insert(operation) }
+        else return true
+
+        return false
     }
 
     fun sumValue(value: String): String = if (value == "") "0"

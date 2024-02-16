@@ -8,7 +8,8 @@ val darkColorScheme = darkColorScheme(
     primary = Color.White,
     secondary = Color.Black,
     tertiary = Color.LightGray,
-    onBackground = Color(0xFF363837)
+    onBackground = Color(0xFF363837),
+    onTertiary = Color(0xFFb38bc4).copy(0.5F)
 )
 
 val lightColorScheme = lightColorScheme(
@@ -16,4 +17,5 @@ val lightColorScheme = lightColorScheme(
     secondary = Color.White,
     tertiary = Color.DarkGray,
     onBackground = Color.White,
+    onTertiary = Color(0xFFb38bc4)
 )

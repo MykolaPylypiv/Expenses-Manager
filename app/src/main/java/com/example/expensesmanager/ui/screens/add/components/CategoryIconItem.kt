@@ -29,7 +29,7 @@ fun CategoryIconItem(viewModel: AddViewModel, text: String, icon: Int, tint: Col
             .padding(16.dp)
             .clip(RoundedCornerShape(10))
             .height(114.dp)
-            .border(2.dp, Color.DarkGray, RoundedCornerShape(10))
+            .border(1.dp, MaterialTheme.colorScheme.onTertiary, RoundedCornerShape(10))
             .clickable {
                 viewModel.category = text
                 viewModel.selectColor = tint

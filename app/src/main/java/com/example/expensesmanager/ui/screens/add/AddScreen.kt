@@ -54,7 +54,7 @@ import com.example.expensesmanager.domain.model.Settings
 import com.example.expensesmanager.navigation.NavigationTree
 import com.example.expensesmanager.ui.composable.AccentFinanceDivider
 import com.example.expensesmanager.ui.screens.add.components.AddCategory
-import com.example.expensesmanager.ui.screens.add.components.AddCategoryItem
+import com.example.expensesmanager.ui.screens.add.components.OperationsItem
 import com.example.expensesmanager.ui.screens.add.components.CategoryIconItem
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -93,15 +93,23 @@ fun AddScreen(
         }, actions = {
             IconButton(
                 onClick = {
-                    viewModel.addOperationsList.add(
-                        AddCategory(
-                            name = viewModel.category,
-                            color = viewModel.selectColor,
-                            sum = viewModel.machiningOperations(
-                                isCosts = isCosts, operation = sumTextFieldValue.text
+                    val operation = Operation(
+                        sum = sumTextFieldValue.text.toInt(),
+                        name = name,
+                        comment = comment,
+                        category = viewModel.category
+                    )
+                    
+                    if (viewModel.validateOperation(operation = operation, context = context))
+                        viewModel.addOperationsList.add(
+                            AddCategory(
+                                name = viewModel.category,
+                                color = viewModel.selectColor,
+                                sum = viewModel.machiningOperations(
+                                    isCosts = isCosts, operation = sumTextFieldValue.text
+                                )
                             )
                         )
-                    )
                 }, modifier = Modifier.padding(end = 8.dp)
             ) {
                 Icon(imageVector = Icons.Filled.Add, contentDescription = "Add")
@@ -121,7 +129,7 @@ fun AddScreen(
                     .padding(horizontal = 8.dp)
             ) {
                 items(viewModel.addOperationsList) { operation ->
-                    AddCategoryItem(
+                    OperationsItem(
                         item = operation, viewModel = viewModel
                     )
 
@@ -129,7 +137,8 @@ fun AddScreen(
                 }
             }
 
-            TextField(value = sumTextFieldValue,
+            TextField(
+                value = sumTextFieldValue,
                 onValueChange = { value ->
                     sumTextFieldValue = TextFieldValue(
                         viewModel.sumValue(value.text),
@@ -143,13 +152,15 @@ fun AddScreen(
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = MaterialTheme.colorScheme.background,
                     focusedIndicatorColor = Color.LightGray,
-                    cursorColor = Color.LightGray
+                    cursorColor = Color.LightGray,
+                    unfocusedIndicatorColor = MaterialTheme.colorScheme.onTertiary
                 ),
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.NumberPassword),
                 singleLine = true
             )
 
-            TextField(value = name,
+            TextField(
+                value = name,
                 onValueChange = {
                     name = it
                 },
@@ -160,12 +171,14 @@ fun AddScreen(
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = MaterialTheme.colorScheme.background,
                     focusedIndicatorColor = Color.LightGray,
-                    cursorColor = Color.LightGray
+                    cursorColor = Color.LightGray,
+                    unfocusedIndicatorColor = MaterialTheme.colorScheme.onTertiary
                 ),
                 singleLine = true
             )
 
-            TextField(value = comment,
+            TextField(
+                value = comment,
                 onValueChange = {
                     comment = it
                 },
@@ -176,7 +189,8 @@ fun AddScreen(
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = MaterialTheme.colorScheme.background,
                     focusedIndicatorColor = Color.LightGray,
-                    cursorColor = Color.LightGray
+                    cursorColor = Color.LightGray,
+                    unfocusedIndicatorColor = MaterialTheme.colorScheme.onTertiary,
                 )
             )
 
@@ -265,9 +279,10 @@ fun AddScreen(
                     viewModel.insert(
                         operation = operation, isCosts = isCosts, context = context
                     )
-                }, modifier = Modifier
+                },
+                modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 64.dp, vertical = 8.dp)
+                    .padding(horizontal = 64.dp, vertical = 8.dp),
             ) {
                 Text(text = language.add, color = MaterialTheme.colorScheme.primary)
             }

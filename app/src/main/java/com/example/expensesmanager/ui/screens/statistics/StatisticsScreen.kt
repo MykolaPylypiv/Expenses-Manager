@@ -43,7 +43,7 @@ fun StatisticsScreen(
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.onBackground)
+            .background(MaterialTheme.colorScheme.background)
             .animateContentSize(), horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
@@ -82,16 +82,6 @@ fun StatisticsScreen(
                 incomesCategories = incomesCategories,
                 settings = settings,
                 language = language
-            )
-        }
-
-        item {
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Text(
-                text = language.categories,
-                color = MaterialTheme.colorScheme.primary,
-                fontSize = 24.sp,
             )
 
             Spacer(modifier = Modifier.height(16.dp))

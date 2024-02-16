@@ -23,7 +23,7 @@ import com.example.expensesmanager.domain.model.AddCategory
 import com.example.expensesmanager.ui.screens.add.AddViewModel
 
 @Composable
-fun AddCategoryItem(item: AddCategory, viewModel: AddViewModel) {
+fun OperationsItem(item: AddCategory, viewModel: AddViewModel) {
     Row(
         modifier = Modifier
             .clip(CircleShape)

@@ -58,7 +58,7 @@ fun AddCategory(language: Language, viewModel: AddViewModel, context: Context) {
             .padding(16.dp)
             .clip(RoundedCornerShape(10))
             .height(114.dp)
-            .border(2.dp, Color.DarkGray, RoundedCornerShape(10))
+            .border(1.dp, MaterialTheme.colorScheme.onTertiary, RoundedCornerShape(10))
             .clickable { stateDialog = true }) {
         Icon(
             imageVector = Icons.Filled.Add,
@@ -115,7 +115,8 @@ fun AddCategory(language: Language, viewModel: AddViewModel, context: Context) {
                         containerColor = MaterialTheme.colorScheme.background,
                         focusedIndicatorColor = Color.LightGray,
                         cursorColor = Color.LightGray,
-                        focusedLabelColor = Color.LightGray
+                        focusedLabelColor = Color.LightGray,
+                        unfocusedIndicatorColor = MaterialTheme.colorScheme.onTertiary
                     )
                 )
 

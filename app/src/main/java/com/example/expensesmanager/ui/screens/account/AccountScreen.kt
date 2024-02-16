@@ -128,7 +128,6 @@ fun AccountScreen(navController: NavController, viewModel: AccountViewModel, lan
 
             OutlinedButton(
                 onClick = { navController.navigate(NavigationTree.Login.screenRoute) },
-                shape = RoundedCornerShape(10),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 72.dp)

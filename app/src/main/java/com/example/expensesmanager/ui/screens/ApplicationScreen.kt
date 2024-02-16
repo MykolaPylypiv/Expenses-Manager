@@ -28,7 +28,7 @@ import com.example.expensesmanager.ui.screens.statistics.StatisticsViewModel
 fun ApplicationScreen(language: Language) {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = NavigationTree.Add.screenRoute) {
+    NavHost(navController = navController, startDestination = NavigationTree.Login.screenRoute) {
         composable(route = NavigationTree.Login.screenRoute) {
             val viewModel = hiltViewModel<LoginViewModel>()
             LoginScreen(navController = navController, viewModel = viewModel, language = language)
