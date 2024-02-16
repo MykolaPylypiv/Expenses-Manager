@@ -1,5 +1,9 @@
 package com.example.expensesmanager.ui.screens.start
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -26,11 +30,13 @@ class StartViewModel @Inject constructor(
 
     val settings = settings.get()
 
+    var expanded by mutableStateOf(false)
+
     fun textDate(language: Language) = mapper.map(MapToUiParameters(dateTime = date, language = language))
 
     fun openCloseShape(expanded: Boolean) = if (!expanded) 20 else 10
 
-    fun openCloseHeight(expanded: Boolean) = if (expanded) 460.dp else 200.dp
+    fun openCloseHeight(expanded: Boolean) = if (expanded) 460.dp else 230.dp
 
     fun openCloseAlpha(expanded: Boolean) = if (expanded) 0f else 1f
 
@@ -74,7 +80,9 @@ class StartViewModel @Inject constructor(
             if (operation.sum > 0) budget += operation.sum
         }
 
-        return (sum / budget * 100).toInt()
+        return if ((sum / budget * 100).toInt() >= 0) {
+            (sum / budget * 100).toInt()
+        } else 0
     }
 
     fun incomes(operations: List<Operation>): Int {

@@ -12,6 +12,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.expensesmanager.app.Language
@@ -26,7 +27,8 @@ fun ClearOperations(language: Language, viewModel: SettingsViewModel) {
         Text(
             text = language.clearOperations,
             fontSize = 20.sp,
-            color = MaterialTheme.colorScheme.primary
+            color = MaterialTheme.colorScheme.primary,
+            style = TextStyle.Default
         )
     }
 

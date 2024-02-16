@@ -57,7 +57,7 @@ fun AddCategory(language: Language, viewModel: AddViewModel, context: Context) {
         modifier = Modifier
             .padding(16.dp)
             .clip(RoundedCornerShape(10))
-            .height(192.dp)
+            .height(114.dp)
             .border(2.dp, Color.DarkGray, RoundedCornerShape(10))
             .clickable { stateDialog = true }) {
         Icon(

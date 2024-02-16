@@ -4,11 +4,15 @@ import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.IconButton
@@ -20,6 +24,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -35,17 +40,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.expensesmanager.app.Language
+import com.example.expensesmanager.domain.model.AddCategory
 import com.example.expensesmanager.domain.model.Operation
 import com.example.expensesmanager.domain.model.Settings
 import com.example.expensesmanager.navigation.NavigationTree
 import com.example.expensesmanager.ui.composable.AccentFinanceDivider
 import com.example.expensesmanager.ui.screens.add.components.AddCategory
+import com.example.expensesmanager.ui.screens.add.components.AddCategoryItem
 import com.example.expensesmanager.ui.screens.add.components.CategoryIconItem
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -64,7 +73,13 @@ fun AddScreen(
 
     var isCosts by remember { mutableStateOf(true) }
 
-    var sum by remember { mutableStateOf("0") }
+    var sumTextFieldValue by remember {
+        mutableStateOf(
+            TextFieldValue(
+                text = "0"
+            )
+        )
+    }
     var name by remember { mutableStateOf("") }
     var comment by remember { mutableStateOf("") }
 
@@ -78,15 +93,14 @@ fun AddScreen(
         }, actions = {
             IconButton(
                 onClick = {
-                    val operation = Operation(
-                        sum = sum.toInt(),
-                        name = name,
-                        comment = comment,
-                        category = viewModel.category
-                    )
-
-                    viewModel.insert(
-                        operation = operation, isCosts = isCosts, context = context
+                    viewModel.addOperationsList.add(
+                        AddCategory(
+                            name = viewModel.category,
+                            color = viewModel.selectColor,
+                            sum = viewModel.machiningOperations(
+                                isCosts = isCosts, operation = sumTextFieldValue.text
+                            )
+                        )
                     )
                 }, modifier = Modifier.padding(end = 8.dp)
             ) {
@@ -95,14 +109,36 @@ fun AddScreen(
         })
     }) { padding ->
 
-        Column(modifier = Modifier.padding(padding)) {
-            TextField(value = sum,
+        Column(
+            modifier = Modifier
+                .padding(padding)
+                .fillMaxWidth()
+        ) {
+            LazyRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .animateContentSize()
+                    .padding(horizontal = 8.dp)
+            ) {
+                items(viewModel.addOperationsList) { operation ->
+                    AddCategoryItem(
+                        item = operation, viewModel = viewModel
+                    )
+
+                    Spacer(modifier = Modifier.width(8.dp))
+                }
+            }
+
+            TextField(value = sumTextFieldValue,
                 onValueChange = { value ->
-                    sum = viewModel.sumValue(value)
+                    sumTextFieldValue = TextFieldValue(
+                        viewModel.sumValue(value.text),
+                        selection = TextRange(sumTextFieldValue.text.length + 1)
+                    )
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(24.dp),
+                    .padding(12.dp),
                 label = { Text(text = settings.currency) },
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = MaterialTheme.colorScheme.background,
@@ -119,7 +155,7 @@ fun AddScreen(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(24.dp),
+                    .padding(12.dp),
                 label = { Text(text = language.name) },
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = MaterialTheme.colorScheme.background,
@@ -135,7 +171,7 @@ fun AddScreen(
                 },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(24.dp),
+                    .padding(12.dp),
                 label = { Text(text = language.commentNotNecessarily) },
                 colors = TextFieldDefaults.textFieldColors(
                     containerColor = MaterialTheme.colorScheme.background,
@@ -214,8 +250,29 @@ fun AddScreen(
                     AddCategory(language = language, viewModel = viewModel, context = context)
                 }
             }
-        }
 
+            Spacer(modifier = Modifier.weight(1F))
+
+            OutlinedButton(
+                onClick = {
+                    val operation = Operation(
+                        sum = sumTextFieldValue.text.toInt(),
+                        name = name,
+                        comment = comment,
+                        category = viewModel.category
+                    )
+
+                    viewModel.insert(
+                        operation = operation, isCosts = isCosts, context = context
+                    )
+                }, modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 64.dp, vertical = 8.dp)
+            ) {
+                Text(text = language.add, color = MaterialTheme.colorScheme.primary)
+            }
+
+        }
     }
 }
 

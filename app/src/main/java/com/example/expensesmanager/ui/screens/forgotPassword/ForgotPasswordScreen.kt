@@ -147,7 +147,7 @@ fun ForgotPasswordScreen(
                 Text(
                     text = language.changePassword,
                     color = MaterialTheme.colorScheme.primary,
-                    fontSize = 22.sp
+                    fontSize = 20.sp
                 )
             }
 

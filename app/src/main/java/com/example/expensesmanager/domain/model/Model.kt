@@ -40,6 +40,10 @@ data class CategoryIcon(
     val name: String, val color: Color, val iconId: Int
 )
 
+data class AddCategory(
+    val name: String, val color: Color, val sum: String
+)
+
 data class Month(
     val name: String, val days: Int
 )

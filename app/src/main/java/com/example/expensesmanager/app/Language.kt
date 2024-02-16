@@ -42,6 +42,8 @@ sealed class Language(
     val no: String,
     val deleteAllOperations: String,
     val textDeleteAllOperations: String,
+    val textDeleteAllCategories: String,
+    val textDeleteCategory: String,
     val empty: String,
     val months: List<String>,
     val login: String,
@@ -109,6 +111,8 @@ sealed class Language(
         no = "No",
         deleteAllOperations = "Delete all operations",
         textDeleteAllOperations = "Are you sure you want to delete all operations ?",
+        textDeleteAllCategories = "Are you sure you want to delete all categories ?",
+        textDeleteCategory = "Are you sure you want to delete this category ?",
         empty = "Empty",
         months = listOf(
             "January",
@@ -189,6 +193,8 @@ sealed class Language(
         no = "Ні",
         deleteAllOperations = "Видалення всіх операцій",
         textDeleteAllOperations = "Ви впевнені, що хочете видалити всі операції ?",
+        textDeleteAllCategories = "Ви впевнені, що хочете видалити всі категорії ?",
+        textDeleteCategory = "Ви впевнені, що хочете видалити категорію ?",
         empty = "Пусто",
         months = listOf(
             "Січень",

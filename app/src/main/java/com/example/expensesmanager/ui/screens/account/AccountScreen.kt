@@ -88,7 +88,7 @@ fun AccountScreen(navController: NavController, viewModel: AccountViewModel, lan
                         text = "Микола Пилипів",
                         color = MaterialTheme.colorScheme.primary,
                         maxLines = 1,
-                        modifier = Modifier.padding(vertical = 16.dp),
+                        modifier = Modifier.padding(vertical = 6.dp),
                         fontSize = 22.sp
                     )
 
@@ -120,7 +120,7 @@ fun AccountScreen(navController: NavController, viewModel: AccountViewModel, lan
                 text = "Вчусь в Львівській плітехніці. Люблю шось там і шось там...",
                 color = MaterialTheme.colorScheme.primary,
                 maxLines = 5,
-                modifier = Modifier.padding(vertical = 16.dp, horizontal = 24.dp),
+                modifier = Modifier.padding(vertical = 12.dp, horizontal = 24.dp),
                 fontSize = 18.sp
             )
 

@@ -63,9 +63,9 @@ fun GeneralInformation(
 
     val configuration = LocalConfiguration.current
     val width =
-        (configuration.screenWidthDp - 48 - 48 - (configuration.screenWidthDp / 100 * (100 - percent)))
-
-    var expanded by remember { mutableStateOf(false) }
+        if (percent != 0) {
+            (configuration.screenWidthDp - 48 - 48 - (configuration.screenWidthDp / 100 * (100 - percent)))
+        } else  (configuration.screenWidthDp - 48 - 48 - (configuration.screenWidthDp / 100))
 
     val density = LocalDensity.current
 
@@ -88,7 +88,7 @@ fun GeneralInformation(
     if (state.isAnimationRunning) {
         DisposableEffect(Unit) {
             onDispose {
-                expanded = when (state.currentValue) {
+                viewModel.expanded = when (state.currentValue) {
                     TwoDragAnchors.Open -> {
                         true
                     }
@@ -104,9 +104,9 @@ fun GeneralInformation(
     Column(
         modifier = Modifier
             .padding(24.dp)
-            .clip(RoundedCornerShape(viewModel.openCloseShape(expanded)))
+            .clip(RoundedCornerShape(viewModel.openCloseShape(viewModel.expanded)))
             .animateContentSize(animationSpec = spring(stiffness = Spring.StiffnessMediumLow))
-            .height(viewModel.openCloseHeight(expanded))
+            .height(viewModel.openCloseHeight(viewModel.expanded))
             .fillMaxWidth()
             .background(
                 Brush.horizontalGradient(
@@ -118,7 +118,7 @@ fun GeneralInformation(
             )
             .anchoredDraggable(state, Orientation.Vertical), horizontalAlignment = Alignment.Start
     ) {
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(36.dp))
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -168,21 +168,21 @@ fun GeneralInformation(
                 .width(width.dp)
         )
 
-        Spacer(modifier = Modifier.height(viewModel.openCloseSpacer(expanded, 8.dp)))
+        Spacer(modifier = Modifier.height(viewModel.openCloseSpacer(viewModel.expanded, 24.dp)))
 
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
 
-            IconButton(onClick = { expanded = !expanded }) {
+            IconButton(onClick = { viewModel.expanded = !viewModel.expanded }) {
                 Icon(
                     imageVector = Icons.Filled.KeyboardArrowDown,
                     contentDescription = "Detail information",
                     tint = MaterialTheme.colorScheme.tertiary,
-                    modifier = Modifier.alpha(viewModel.openCloseAlpha(expanded))
+                    modifier = Modifier.alpha(viewModel.openCloseAlpha(viewModel.expanded))
                 )
             }
         }
 
-        Spacer(modifier = Modifier.height(viewModel.openCloseSpacer(expanded, 20.dp)))
+        Spacer(modifier = Modifier.height(viewModel.openCloseSpacer(viewModel.expanded, 20.dp)))
 
         Text(
             text = "${language.date}: ${viewModel.textDate(language = language)}",
@@ -241,7 +241,7 @@ fun GeneralInformation(
 
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
 
-            IconButton(onClick = { expanded = !expanded }) {
+            IconButton(onClick = { viewModel.expanded = !viewModel.expanded }) {
                 Icon(
                     imageVector = Icons.Filled.KeyboardArrowUp,
                     contentDescription = "Detail information",
@@ -249,5 +249,7 @@ fun GeneralInformation(
                 )
             }
         }
+
+        Spacer(modifier = Modifier.height(24.dp))
     }
 }

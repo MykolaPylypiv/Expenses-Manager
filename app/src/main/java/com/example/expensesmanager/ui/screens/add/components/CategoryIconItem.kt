@@ -4,7 +4,9 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -26,12 +28,16 @@ fun CategoryIconItem(viewModel: AddViewModel, text: String, icon: Int, tint: Col
         modifier = Modifier
             .padding(16.dp)
             .clip(RoundedCornerShape(10))
+            .height(114.dp)
             .border(2.dp, Color.DarkGray, RoundedCornerShape(10))
-            .clickable { viewModel.category = text }) {
+            .clickable {
+                viewModel.category = text
+                viewModel.selectColor = tint
+            }) {
         Icon(
             painter = painterResource(id = icon),
             contentDescription = text,
-            modifier = Modifier.padding(8.dp),
+            modifier = Modifier.padding(8.dp).size(64.dp),
             tint = tint
         )
 
